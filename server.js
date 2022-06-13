@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const foodRouter = require("./routes/foodRoutes.js");
+const userRouter = require("./routes/userRouters.js");
 
 const app = express();
 
@@ -16,8 +16,13 @@ mongoose.connect(
   }
 );
 
-app.use(foodRouter);
+// ! dagdag sa router
+// * example ni ernst ay create blog 
+// ex. /sample+"/router_method_name"
+// * do this after testing w frontend
+// app.use("/sample",userRouter);
+// app.use("/sample",userRouter);
 
 app.listen(3000, () => {
-  console.log("Server is running...");
+  console.log("Beep.. Boop.. Server is running...");
 });
