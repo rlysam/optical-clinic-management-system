@@ -21,7 +21,7 @@ mongoose.connect(
 // ex. /sample+"/router_method_name"
 // * do this after testing w frontend
 // app.use("/sample",userRouter);
-// app.use("/sample",userRouter);
+app.use(userRouter);
 
 app.listen(3000, () => {
   console.log("Beep.. Boop.. Server is running...");

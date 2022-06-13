@@ -5,12 +5,14 @@ const UserSchema = new mongoose.Schema({
 	//  user id, meron na agad...
   first_name: {
     type: String,
+	required: true
   },
   middle_name: {
-    type: Number,
+    type: String,
   },
   last_name: {
     type: String,
+	required: true
   },
   sex: {
     type: String,
@@ -21,22 +23,23 @@ const UserSchema = new mongoose.Schema({
   },
   contact: {
     type: String,
+	required: true
   },
   type: {
-    type: string,
+    type: String,
   },
   email: {
-    type: string,
+    type: String,
   },
   password: {
-    type: string,
+    type: String,
   },
   is_archived: {
     type: Boolean,
 	default:false,
   },
   is_admin: {
-    type: string,
+    type: String,
 	default:false,
   },
   date_added: {
