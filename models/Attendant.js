@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
+const AttendantSchema = new mongoose.Schema({
 
   //  user id, meron na agad...
   first_name: {
@@ -25,30 +25,19 @@ const UserSchema = new mongoose.Schema({
     type: String,
 	required: true
   },
-  type: {
-    type: String,
-  },
   email: {
-    type: String,
-  },
-  password: {
     type: String,
   },
   is_archived: {
     type: Boolean,
 	default:false,
   },
-  is_admin: {
-    type: String,
-	default:false,
-  },
   date_added: {
     type: Date,
   },
-
 });
 
 // ! Ito yung collection name, First param
-const User = mongoose.model("User", UserSchema);
+const Attendant = mongoose.model("Attendant", AttendantSchema);
 
-module.exports = User;
+module.exports = Attendant;
