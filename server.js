@@ -1,8 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const userRouter = require("./routes/userRouters.js");
 
 const app = express();
+const port = process.env.PORT || 3000;
+
+const attendantRouter = require("./routes/attendantRouters.js");
+const itemRouter = require("./routes/itemRouters.js");
+const userRouter = require("./routes/userRouters.js");
 
 app.use(express.json());
 
@@ -21,8 +25,10 @@ mongoose.connect(
 // ex. /sample+"/router_method_name"
 // * do this after testing w frontend
 // app.use("/sample",userRouter);
-app.use(userRouter);
+app.use("/api/",userRouter);
+app.use("/api/",attendantRouter);
+app.use("/api/",itemRouter);
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log("Beep.. Boop.. Server is running...");
 });
