@@ -8,13 +8,20 @@ const port = process.env.PORT || 3000;
 const attendantRouter = require(path.join(__dirname, "./routes/attendantRouters.js"));
 const itemRouter = require(path.join(__dirname, "./routes/itemRouters.js"));
 const userRouter = require(path.join(__dirname, "./routes/userRouters.js"));
+const appointmentRouter = require(path.join(__dirname, "./routes/appointmentRouters.js"));
+const cartRouter = require(path.join(__dirname, "./routes/cartRouters.js"));
+const purchaseHistoryRouter = require(path.join(__dirname, "./routes/purchaseHistoryRouters.js"));
+const itemFilterRouters = require(path.join(__dirname, "./routes/itemFilterRouters.js"));
+const filterRouters = require(path.join(__dirname, "./routes/filterRouters.js"));
+
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
 mongoose.connect(
 	// yung database name after ng "... .net/"
-  "mongodb+srv://arvin:arvin123@cluster0.fpb7h.mongodb.net/eye_management_system?retryWrites=true&w=majority",
+  "mongodb+srv://sam123:sam123@cluster0.fpb7h.mongodb.net/eye_management_system?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useFindAndModify: false,
@@ -30,6 +37,12 @@ mongoose.connect(
 app.use("/api/",attendantRouter);
 app.use("/api/",itemRouter);
 app.use("/api/", userRouter);
+app.use("/api/", appointmentRouter);
+app.use("/api/", cartRouter);
+app.use("/api/", purchaseHistoryRouter);
+app.use("/api/", eyeHistoryRouter);
+app.use("/api/", itemFilterRouters);
+app.use("/api/", filterRouters);
 
 app.use(express.json());
 // app.use(express.static(path.join(__dirname), "/assets"));

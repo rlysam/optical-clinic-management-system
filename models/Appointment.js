@@ -1,8 +1,16 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
+const AppointmentSchema = new mongoose.Schema({
 
   //  user id, meron na agad...
+  attendant_id: {
+    type: String,
+	required: true
+  },
+  user_id: {
+    type: String,
+	required: true
+  },
   first_name: {
     type: String,
 	required: true
@@ -29,22 +37,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
 	required: true
   },
-  type: {
-    type: String,
-  },
   email: {
     type: String,
   },
-  password: {
-    type: String,
+  last_eye_exam: {
+    type: Date,
   },
-  is_archived: {
-    type: Boolean,
-	default:false,
-  },
-  is_admin: {
+  last_eye_grade: {
     type: String,
-	default:false,
   },
   date_added: {
     type: Date,
@@ -53,6 +53,6 @@ const UserSchema = new mongoose.Schema({
 });
 
 // ! Ito yung collection name, First param
-const User = mongoose.model("User", UserSchema);
+const Appointment = mongoose.model("Appointment", AppointmentSchema);
 
-module.exports = User;
+module.exports = Appointment;
