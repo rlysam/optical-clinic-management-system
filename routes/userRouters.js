@@ -1,9 +1,9 @@
 const express = require("express");
 const userModel = require("../models/User");
-const app = express();
+const router = express.Router();
 
 // READ
-app.get("/users", async (request, response) => {
+router.get("/users", async (request, response) => {
   const users = await userModel.find({});
 
   try {
@@ -14,7 +14,7 @@ app.get("/users", async (request, response) => {
 });
 
 // CREATE
-app.post("/user", async (request, response) => {
+router.post("/user", async (request, response) => {
   const user = new userModel(request.body);
 
   try {
@@ -26,7 +26,7 @@ app.post("/user", async (request, response) => {
 });
 
 // UPDATE
-app.patch("/user/:id", async (request, response) => {
+router.patch("/user/:id", async (request, response) => {
   try {
     await userModel.findByIdAndUpdate(request.params.id, request.body);
     await userModel.save();
@@ -37,7 +37,7 @@ app.patch("/user/:id", async (request, response) => {
 });
 
 // DELETE
-app.delete("/user/:id", async (request, response) => {
+router.delete("/user/:id", async (request, response) => {
   try {
     const user = await userModel.findByIdAndDelete(request.params.id);
 
@@ -49,4 +49,4 @@ app.delete("/user/:id", async (request, response) => {
 });
 
 // ! ---------------
-module.exports = app;
+module.exports = router;

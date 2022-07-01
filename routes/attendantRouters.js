@@ -1,9 +1,9 @@
 const express = require("express");
 const attendantModel = require("../models/Attendant");
-const app = express();
+const router = express.Router();
 
 // READ
-app.get("/attendants", async (request, response) => {
+router.get("/attendants", async (request, response) => {
   const attendants = await attendantModel.find({});
 
   try {
@@ -14,7 +14,7 @@ app.get("/attendants", async (request, response) => {
 });
 
 // CREATE
-app.post("/attendant", async (request, response) => {
+router.post("/attendant", async (request, response) => {
   const attendant = new attendantModel(request.body);
 
   try {
@@ -26,7 +26,7 @@ app.post("/attendant", async (request, response) => {
 });
 
 // UPDATE
-app.patch("/attendant/:id", async (request, response) => {
+router.patch("/attendant/:id", async (request, response) => {
   try {
     await attendantModel.findByIdAndUpdate(request.params.id, request.body);
     await attendantModel.save();
@@ -37,7 +37,7 @@ app.patch("/attendant/:id", async (request, response) => {
 });
 
 // DELETE
-app.delete("/attendant/:id", async (request, response) => {
+router.delete("/attendant/:id", async (request, response) => {
   try {
     const attendant = await attendantModel.findByIdAndDelete(request.params.id);
 
@@ -49,4 +49,4 @@ app.delete("/attendant/:id", async (request, response) => {
 });
 
 // ! ---------------
-module.exports = app;
+module.exports = router;
