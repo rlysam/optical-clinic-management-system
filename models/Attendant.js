@@ -14,6 +14,10 @@ const AttendantSchema = new mongoose.Schema({
     type: String,
 	required: true
   },
+  title: {
+    type: String,
+  required: true
+  },
   sex: {
     type: String,
   },
@@ -25,15 +29,18 @@ const AttendantSchema = new mongoose.Schema({
     type: String,
 	required: true
   },
+  address: {
+    type: String
+  },
   email: {
-    type: String,
+    type: String
   },
   is_archived: {
     type: Boolean,
 	default:false,
   },
   date_added: {
-    type: Date,
+    type: Date
   },
 });
 

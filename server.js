@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const methodOverride = require('method-override');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,6 +23,11 @@ mongoose.connect(
   }
 )
 
+app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, "/assets")));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // ! dagdag sa router
 // * example ni ernst ay create blog 
 // ex. /sample+"/router_method_name"
@@ -31,8 +37,7 @@ app.use("/api/",attendantRouter);
 app.use("/api/",itemRouter);
 app.use("/api/", userRouter);
 
-app.use(express.json());
-// app.use(express.static(path.join(__dirname), "/assets"));
+
 
 app.listen(port, () => {
   console.log("Beep.. Boop.. Server is running...");

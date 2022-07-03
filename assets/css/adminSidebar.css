@@ -1,0 +1,418 @@
+.sidebar {
+  position: fixed;
+  height: 100%;
+  width: 280px;
+  background: #fafafa;
+  border-right: 0.5px solid #d3d3d3;
+  /* border-radius: 0 15px 15px 0; */
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  /* box-shadow: 0px 4px 75px 0px rgba(0, 0, 0, 0.25); */
+}
+.sidebar.active {
+  width: 60px;
+}
+.sidebar .logo-details {
+  margin-top: 5px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+}
+.sidebar .logo-details img {
+  font-weight: 500;
+  max-width: 75px;
+  min-width: 62px;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+.sidebar .logo-details .logo_name {
+  color: var(--black);
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 0 0.2rem;
+}
+.sidebar .nav-links {
+  margin-top: 10px;
+}
+ol,
+ul {
+  padding-left: 0;
+}
+
+.sidebar .nav-links li {
+  position: relative;
+  list-style: none;
+  height: 2.8rem;
+  margin: 0.8rem 0 0.8rem 0;
+}
+.sidebar .nav-links li a {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+}
+.sidebar .nav-links li a.active,
+.sidebar .nav-links li a:hover {
+  background: var(--addBtn);
+  color: whitesmoke;
+}
+
+.sidebar .nav-links li i {
+  min-width: 60px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.sidebar .nav-links li a {
+  color: #4a4a4a;
+  font-size: 1rem;
+  font-weight: 400;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.sidebar .nav-links .log_out {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.home-section {
+  position: relative;
+  background: #f5f5f5;
+  min-height: 100vh;
+  width: calc(100% - 280px);
+  left: 280px;
+  transition: all 0.5s ease;
+}
+.sidebar.active ~ .home-section {
+  width: calc(100% - 60px);
+  left: 60px;
+}
+#signOut {
+  align-self: flex-end;
+}
+
+.home-section nav {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  width: calc(100% - 280px);
+  left: 280px;
+  z-index: 100;
+  padding: 0 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease;
+}
+.sidebar.active ~ .home-section nav {
+  left: 60px;
+  width: calc(100% - 60px);
+}
+.home-section nav .sidebar-button {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+nav .sidebar-button i {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.home-section nav .profile-details {
+  display: flex;
+  align-items: center;
+  background: #fafafa;
+  /* border: 2px solid #EFEEF1; */
+  border-radius: 6px;
+  height: 46px;
+  min-width: 150px;
+}
+.home-section nav a.view-shop {
+  display: flex;
+  align-items: center;
+  color: var(--addBtn);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.home-section nav .view-shop-text:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+nav .profile-details img {
+  height: 2.3rem;
+  width: 2.3rem;
+  border-radius: 6px;
+  object-fit: cover;
+}
+nav .profile-details .admin_name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333333;
+  white-space: nowrap;
+}
+
+.home-section .home-content {
+  position: relative;
+  padding-top: 6rem;
+  font-family: "Helvetica", sans-serif;
+}
+
+/* Dashboard Page */
+.home-content .overview-boxes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 20px;
+  margin-bottom: 25px;
+}
+.overview-boxes .box {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: calc(100% / 4 - 12px);
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.overview-boxes .box-topic {
+  font-size: 19px;
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+.home-content .box .number {
+  display: inline-block;
+  font-size: 32px;
+  margin-top: -6px;
+  font-weight: 500;
+}
+.home-content .box .cart {
+  display: inline-block;
+  font-size: 18px;
+  height: 50px;
+  width: 50px;
+  background: #cce5ff;
+  line-height: 50px;
+  text-align: center;
+  color: #66b0ff;
+  border-radius: 12px;
+}
+.home-content .box .cart.two {
+  color: #2bd47d;
+  background: #c0f2d8;
+}
+.home-content .box .cart.three {
+  color: #ffc233;
+  background: #ffe8b3;
+}
+.home-content .box .cart.four {
+  color: #e05260;
+  background: #f7d4d7;
+}
+.home-content .box #registered {
+  font-size: 18px;
+  padding-bottom: 8px;
+}
+
+.home-content .total-order {
+  font-size: 20px;
+  font-weight: 500;
+}
+.home-content .sales-boxes {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+
+/* left box */
+.home-content .sales-boxes .recent-sales {
+  width: 55%;
+  background: #fff;
+  padding: 20px 30px;
+  margin: 0 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.home-content .sales-boxes .sales-details table th, .home-content .sales-boxes .top-sales th {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.home-content .sales-boxes .sales-details table td{
+  font-size: 1.1rem;
+  line-height: 35px;
+  font-weight: normal;
+  margin: 1.5rem;
+}
+@media (max-width: 1399px) {
+  .home-content .sales-boxes .sales-details table td,
+  .home-content .sales-boxes .sales-details table th,
+  .home-content .sales-boxes .top-sales th
+  .home-content .sales-boxes .top-sales td {
+    font-size: 1.02rem;
+  }
+}
+.home-content .sales-boxes .sales-details table td img {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+.sales-boxes .box .title {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--addBtn);
+}
+
+.sales-boxes .box .button {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.sales-boxes .box .button a {
+  color: #fff;
+  background: var(--addBtn);
+  padding: 6px 20px;
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.sales-boxes .box .button a:hover {
+  color: var(--black);
+  font-weight: 600;
+}
+
+/* Right box */
+.home-content .sales-boxes .top-sales {
+  width: 45%;
+  background: #fff;
+  padding: 20px 30px;
+  margin: 0 20px 0 0;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.home-content .sales-boxes .top-sales th{
+  line-height: 35px;
+  font-size: 1.02rem;
+}
+.home-content .sales-boxes .top-sales td img {
+  height: 2.2rem;
+  width: 4rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-right: 10px;
+  background: #fafafa;
+}
+
+/* Responsive Media Query */
+@media (max-width: 1240px) {
+  .sidebar {
+    width: 60px;
+  }
+  .sidebar.active {
+    width: 220px;
+  }
+  .home-section {
+    width: calc(100% - 60px);
+    left: 60px;
+  }
+  .sidebar.active ~ .home-section {
+    width: calc(100% - 220px);
+    overflow: hidden;
+    left: 220px;
+  }
+  .home-section nav {
+    width: calc(100% - 60px);
+    left: 60px;
+  }
+  .sidebar.active ~ .home-section nav {
+    width: calc(100% - 220px);
+    left: 220px;
+  }
+}
+@media (max-width: 1150px) {
+  .home-content .sales-boxes {
+    flex-direction: column;
+  }
+  .home-content .sales-boxes .box {
+    width: auto;
+    overflow-x: scroll;
+    margin-bottom: 30px;
+    margin: 0 1.7rem 2rem 1.5rem;
+  }
+  .home-content .sales-boxes .top-sales {
+    margin: 0rem 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    width: auto;
+  }
+}
+@media (max-width: 1000px) {
+  .overview-boxes .box {
+    width: calc(100% / 2 - 15px);
+    margin-bottom: 15px;
+  }
+}
+@media (max-width: 700px) {
+  nav .sidebar-button .dashboard,
+  nav .profile-details .admin_name,
+  nav .profile-details i {
+    display: none;
+  }
+  .home-section nav .profile-details {
+    height: 50px;
+    min-width: 40px;
+  }
+  .home-content .sales-boxes .sales-details {
+    width: 560px;
+  }
+  .home-content .sales-boxes .top-sales {
+    margin: 0rem 2rem 0 1rem;
+  }
+}
+@media (max-width: 550px) {
+  .overview-boxes .box {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .sidebar.active ~ .home-section nav .profile-details {
+    display: none;
+  }
+  .sidebar {
+    width: 0;
+  }
+  .sidebar.active {
+    width: 60px;
+  }
+  .home-section {
+    width: 100%;
+    left: 0;
+  }
+  .sidebar.active ~ .home-section {
+    left: 60px;
+    width: calc(100% - 60px);
+  }
+  .home-section nav {
+    width: 100%;
+    left: 0;
+  }
+  .sidebar.active ~ .home-section nav {
+    left: 60px;
+    width: calc(100% - 60px);
+  }
+}
+

@@ -1,0 +1,26 @@
+.account-settings-btn {
+    color: #FFFFFF;
+    /* width: 15em; */
+    font-size: 1.5rem;
+}
+
+.blue {
+    color: #50ABF1
+}
+
+.blue-bg {
+    background-color: #50ABF1;
+}
+
+.red-bg {
+    background-color: #F57575;
+}
+
+.settings-container {
+    width: 40vw;
+    min-width: 400px;
+}
+
+label {
+    font-size: 1.4rem;
+}
