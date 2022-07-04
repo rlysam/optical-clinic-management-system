@@ -76,6 +76,22 @@ router.get("/faqs", async (request, response) => {
 
 });
 
+router.post("/signin", async (request, response) => {
+  const customer = await CustomerModel.findOne({email: request.body.email, password: request.body.password})
+
+  try {
+    if(customer) {
+      response.send(customer)
+    }
+    else {
+      response.redirect("/signin");
+    } 
+  } catch (error) {
+    response.status(500).send(error);
+  }
+
+});
+
 router.post("/register", async (request, response) => {
   const customer = new CustomerModel(request.body);
 

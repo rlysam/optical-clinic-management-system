@@ -19,7 +19,9 @@
   <body>
 
     <%- include("../partials/client-navigation-guest.ejs") %>
-    <form class="vh-100">
+    <form 
+      method="POST" action="/signin"
+      class="vh-100">
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -34,6 +36,7 @@
                       class="form-control"
                       placeholder="Email/Username"
                       id="email-username"
+                      name="email"
                     />
                   </div>
                   <div class="col-12 form-outline mb-4">
@@ -43,12 +46,13 @@
                       class="form-control"
                       placeholder="Password"
                       id="password"
+                      name="password"
                     />
                   </div>
                   <a href="#" class="small mb-4">Forgot Password?</a>
                   <div class="col-12 form-outline mb-4">
                     <div>
-                      <button type="button" class="btn btn-blue w-100">
+                      <button type="submit" class="btn btn-blue w-100">
                         Login
                       </button>
                     </div>
