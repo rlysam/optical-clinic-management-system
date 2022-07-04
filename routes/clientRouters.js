@@ -6,9 +6,9 @@ const router = express.Router();
 // READ
 router.get("/home", async (request, response) => {
   const products = await ProductModel.find({});
-
+  const {session} = request;
   try {
-    response.render("client/home.ejs", {products});
+    response.render("client/home.ejs", {products, session});
   } catch (error) {
     response.status(500).send(error);
   }
@@ -81,7 +81,9 @@ router.post("/signin", async (request, response) => {
 
   try {
     if(customer) {
-      response.send(customer)
+      request.session.user_id = customer._id;
+      request.session.loggedin = true;
+      response.redirect("/home");
     }
     else {
       response.redirect("/signin");

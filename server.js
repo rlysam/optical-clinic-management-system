@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require('method-override');
+const session = require("express-session");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -37,6 +38,11 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, "/assets")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({
+  secret: "sessionsecret",
+  resave: false,
+  saveUninitialized: false
+}))
 
 // ! dagdag sa router
 // * example ni ernst ay create blog 

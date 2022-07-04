@@ -66,6 +66,8 @@
             </li>
           </ul>
         </div>
+        <% if(typeof(session) !== "undefined") { %>
+        <% if(!session.loggedin) { %> 
         <div class="btn-group account-dropdown">
           <a
             class="nav-link navbar-link text-dark sign-in-div mx-4 px-4"
@@ -79,6 +81,50 @@
             </a>
           </div>
         </div>
+        <% } else { %>
+          <button
+          type="button"
+          class="btn dropdown-toggle"
+          data-bs-toggle="dropdown"
+          data-bs-display="static"
+          aria-expanded="false"
+        >
+          <img
+            src="\images\avatar.png"
+            alt=""
+            width="30px"
+            class="d-inline-block"
+          />
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
+          <li>
+            <a class="dropdown-item" style="z-index: 10" href="#">Profile</a>
+          </li>
+          <li>
+            <a class="dropdown-item" style="z-index: 10" href="#">Settings</a>
+          </li>
+          <li>
+            <a class="dropdown-item" style="z-index: 10" href="#">History</a>
+          </li>
+          <li>
+            <a class="dropdown-item" style="z-index: 10" href="#">Sign Out</a>
+          </li>
+        </ul>
+        <% }} else { %>
+          <div class="btn-group account-dropdown">
+            <a
+              class="nav-link navbar-link text-dark sign-in-div mx-4 px-4"
+              href="/signin"
+              ><span class="sign-in-text">Sign In</span></a
+            >
+            <div class="cart">
+              <a class="nav-link text-dark" href="#"
+                ><i class="fas fa-cart-arrow-down"></i>
+                <span class="badge bg-primary rounded-pill">14</span>
+              </a>
+            </div>
+          </div>
+        <% } %>
       </div>
     </nav>
     <script
@@ -86,5 +132,6 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script src="/scripts/jquery.min.js"></script>
   </body>
 </html>
