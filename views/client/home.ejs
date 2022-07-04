@@ -44,7 +44,7 @@
         class="container d-flex justify-content-lg-between ustify-content-md-between flex-wrap align-items-center"
       >
         <h1>JUST IN</h1>
-        <a href="../client/products/all-products.html">VIEW ALL</a>
+        <a href="/products">VIEW ALL</a>
       </div>
       <div class="container-fluid">
         <div
@@ -72,6 +72,8 @@
             <div class="carousel-item active">
               <div class="container">
                 <div class="row">
+                  <% if(products) { %>
+                  <% for(let product of products) { %>
                   <div class="col-lg-3 col-md-6 col-6 col-6">
                     <div class="wrapper">
                       <!-- 1 -->
@@ -89,125 +91,24 @@
                         <div class="card-body">
                           <a href="../client/products/all-products.html">
                             <h6 class="card-title">
-                              Original Blue Spring Hinge
+                              <%= product.name %>
                             </h6>
                           </a>
-                          <p class="card-text">Normal, UV Lens</p>
+                          <p class="card-text"><%= product.lens %></p>
                           <div class="d-flex justify-content-between">
                             <p class="price">
                               <i
                                 class="fas fa-tag px-1 tag"
                                 aria-hidden="true"
                               ></i>
-                              <span class="px-1">Php 2,280</span>
+                              <span class="px-1">Php <%= product.price %></span>
                             </p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-6 col-6">
-                    <div class="wrapper">
-                      <!-- 2 -->
-                      <div class="card">
-                        <a href="../client/products/all-products.html">
-                          <img
-                            src="/images/product-img.png"
-                            class="card-img-top"
-                            alt="..."
-                          />
-                          <div class="label-new">
-                            <span>new</span>
-                          </div>
-                        </a>
-                        <div class="card-body">
-                          <a href="../client/products/all-products.html">
-                            <h6 class="card-title">
-                              Original Blue Spring Hinge
-                            </h6>
-                          </a>
-                          <p class="card-text">Normal, UV Lens</p>
-                          <div class="d-flex justify-content-between">
-                            <p class="price">
-                              <i
-                                class="fas fa-tag px-1 tag"
-                                aria-hidden="true"
-                              ></i>
-                              <span class="px-1">Php 2,280</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-6">
-                    <div class="wrapper">
-                      <!-- 3 -->
-                      <div class="card">
-                        <a href="../client/products/all-products.html">
-                          <img
-                            src="/images/product-img.png"
-                            class="card-img-top"
-                            alt="..."
-                          />
-                          <div class="label-new">
-                            <span>new</span>
-                          </div>
-                        </a>
-                        <div class="card-body">
-                          <a href="../client/products/all-products.html">
-                            <h6 class="card-title">
-                              Original Blue Spring Hinge
-                            </h6>
-                          </a>
-                          <p class="card-text">Normal, UV Lens</p>
-                          <div class="d-flex justify-content-between">
-                            <p class="price">
-                              <i
-                                class="fas fa-tag px-1 tag"
-                                aria-hidden="true"
-                              ></i>
-                              <span class="px-1">Php 2,280</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6 col-6">
-                    <div class="wrapper">
-                      <!-- 4 -->
-                      <div class="card">
-                        <a href="../client/products/all-products.html">
-                          <img
-                            src="/images/product-img.png"
-                            class="card-img-top"
-                            alt="..."
-                          />
-                          <div class="label-new">
-                            <span>new</span>
-                          </div>
-                        </a>
-                        <div class="card-body">
-                          <a href="../client/products/all-products.html">
-                            <h6 class="card-title">
-                              Original Blue Spring Hinge
-                            </h6>
-                          </a>
-                          <p class="card-text">Normal, UV Lens</p>
-                          <div class="d-flex justify-content-between">
-                            <p class="price">
-                              <i
-                                class="fas fa-tag px-1 tag"
-                                aria-hidden="true"
-                              ></i>
-                              <span class="px-1">Php 2,280</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <% }} %>
                 </div>
               </div>
             </div>
@@ -401,7 +302,7 @@
               >
             </p>
             <div class="text-lg-start text-md-center read-faqs-button">
-              <a href="" class="btn btn-default read-faqs-button">
+              <a href="/faqs" class="btn btn-default read-faqs-button">
                 READ FAQs
               </a>
             </div>
@@ -428,7 +329,7 @@
               <img src="/images/medicine.svg" alt="Eye Store" />
               <div>
                 <p>Schedule your eye examination here:</p>
-                <a class="btn btn-default">Set your appointment</a>
+                <a href="/set-appointment" class="btn btn-default">Set your appointment</a>
               </div>
             </div>
           </div>
