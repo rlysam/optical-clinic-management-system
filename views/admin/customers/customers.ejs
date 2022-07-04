@@ -47,7 +47,7 @@
           <div class="d-flex justify-content-end mx-2">
             <!-- Archives Button -->
             <a
-              href="/frontend/admin/customers/archives.html"
+              href="/api/customers/archives"
               class="btn archiveBtn text-white fw-bold px-4"
               id="archive-list-button"
               title="View Archive List"
@@ -337,7 +337,9 @@
                 <h4 class="px-1 pt-4 fw-bold">List of Customers</h4>
               </div>
               <hr class="my-4" />
-              <div class="container-fluid table-responsive pt-2">
+              <form 
+                method="POST" action="/api/customer/archive?_method=PATCH"
+                class="container-fluid table-responsive pt-2">
                 <table
                   class="table table-hover align-middle align-items-center table-body"
                   aria-label="Customers' List"
@@ -418,23 +420,23 @@
                 <!-- Batch Archive Button -->
                 <div class="d-flex justify-content-end my-3">
                   <button
-                    type="button"
+                    type="submit"
                     class="btn archive-all-data px-4 py-2 fw-bold text-white text-uppercase"
                     id="archive-counter"
                   >
                     Archive Attendants (0)
                   </button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </section>
     <!-- jQuery DataTables JS CDN -->
+    <script src="/js/archive.js"></script>
     <script src="/js/jquery-3.5.1.js"></script>
     <script src="/js/jquery.dataTables.min.js"></script>
-    <script src="/js/archive.js"></script>
     <script src="/js/dataTables.bootstrap5.min.js"></script>
     <script>
       let sidebar = document.querySelector(".sidebar");
@@ -457,7 +459,6 @@
       });
     </script>
 
-    <script src="/js/attendants.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
