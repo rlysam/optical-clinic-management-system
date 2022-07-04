@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
+const CustomerSchema = new mongoose.Schema({
 
-  //  user id, meron na agad...
+  //  customer id, meron na agad...
   first_name: {
     type: String,
 	required: true
@@ -13,6 +13,10 @@ const UserSchema = new mongoose.Schema({
   last_name: {
     type: String,
 	required: true
+  },
+  suffix: {
+    type: String,
+    default: ""
   },
   sex: {
     type: String,
@@ -53,6 +57,6 @@ const UserSchema = new mongoose.Schema({
 });
 
 // ! Ito yung collection name, First param
-const User = mongoose.model("User", UserSchema);
+const Customer = mongoose.model("Customer", CustomerSchema);
 
-module.exports = User;
+module.exports = Customer;

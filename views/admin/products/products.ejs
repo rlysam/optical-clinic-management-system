@@ -2,16 +2,16 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/assets/css/adminSidebar.css" />
-    <link rel="stylesheet" href="/assets/css/common.css" />
-    <link rel="stylesheet" href="/assets/css/products.css" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/adminSidebar.css" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/products.css" />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
     />
     <link
-      href="/assets/css/dataTables.bootstrap5.min.css"
+      href="/css/dataTables.bootstrap5.min.css"
       rel="stylesheet"
       type="text/css"
     />
@@ -20,69 +20,7 @@
   </head>
 
   <body>
-    <div class="sidebar" id="admin-sidebar">
-      <div class="logo-details">
-        <img src="/assets/images/logo.png" class="logo" alt="">
-        <span class="logo_name">Vision</span>
-      </div>
-
-      <ul class="nav-links mt-4">
-        <li>
-          <a href="../dashboard.html">
-            <i class="fa fa-th-large"></i>
-            <span class="links_name">Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a href="../customers/customers.html">
-            <i class="fa fa-users"></i>
-            <span class="links_name">Customers</span>
-          </a>
-        </li>
-        <li>
-          <a href="../attendants/attendants.html">
-            <i class="fa fa-user-md"></i>
-            <span class="links_name">Attendants</span>
-          </a>
-        </li>
-        <li>
-          <a href="../products/products.html" class="active">
-            <i class="fas fa-shopping-bag"></i>
-            <span class="links_name">Products</span>
-          </a>
-        </li>
-        <li>
-          <a href="../orders/orders.html">
-            <i class="fa fa-cart-arrow-down"></i>
-            <span class="links_name">Orders</span>
-          </a>
-        </li>
-        <li>
-          <a href="../appointment/appointment.html">
-            <i class="fa fa-calendar"></i>
-            <span class="links_name">Appointment</span>
-          </a>
-        </li>
-        <li>
-          <a href="../admins/admin-accounts.html">
-            <i class="fas fa-users-cog" aria-hidden="true"></i>
-            <span class="links_name">Admin</span>
-          </a>
-        </li>
-        <li>
-          <a href="../admin-change-password.html">
-            <i class="fa fa-key"></i>
-            <span class="links_name">Change Password</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fas fa-sign-out-alt"></i>
-            <span class="links_name">Signout</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <%- include("../../partials/admin-sidebar.ejs") %>
 
     <section class="home-section">
       <nav>
@@ -98,7 +36,7 @@
           </a>
           <div class="profile-details px-2">
             <span class="admin_name px-2">Admin Name</span>
-            <img src="/assets/images/avatar.png" alt="" />
+            <img src="/images/avatar.png" alt="" />
           </div>
         </div>
       </nav>
@@ -108,7 +46,7 @@
           <div class="d-flex justify-content-end mx-2">
             <!-- Archives Button -->
             <a
-              href="/frontend/admin/products/archives.html"
+              href="/api/products/archives"
               class="btn archiveBtn text-white fw-bold px-4"
               id="archive-list-button"
               title="View Archive List"
@@ -118,10 +56,9 @@
 
             <!-- Create New Product -->
             <a
-              href="/frontend/admin/products/add-product.html"
+              href="/api/add-product"
               class="btn addBtn text-white fw-bold px-3 mx-3"
               id="create-new-button"
-              title="Create New Attendant"
             >
               <i class="fa fa-plus px-1" aria-hidden="true"></i>
               Create New
@@ -136,7 +73,9 @@
                 <h4 class="px-1 pt-4 fw-bold">List of Products</h4>
               </div>
               <hr class="my-4" />
-              <div class="container-fluid table-responsive pt-2">
+              <form 
+                method="POST" action="/api/product/archive?_method=PATCH"
+                class="container-fluid table-responsive pt-2">
                 <table
                   class="table table-hover align-middle align-items-center table-body py-2"
                   aria-label="Customers' List"
@@ -151,11 +90,12 @@
                             class="form-check-input check-all"
                             type="checkbox"
                             value=""
-                            id="check-all-customer"
+                            id="check-all"
+                            onClick="checkAll()"
                           />
                           <label
                             class="form-check-label"
-                            for="check-all-customer"
+                            for="check-all"
                           >
                             All
                           </label>
@@ -169,32 +109,35 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <% for(let product of products) { %>
                     <tr>
                       <td>
                         <div class="form-check">
                           <input
                             class="form-check-input check-list"
                             type="checkbox"
-                            value=""
-                            id="check-one-customer"
+                            id="check-one-product"
+                            name="archive-check"
+                            value="<%= product._id %>"
+                            onClick="updateArchiveCount()"
                           />
                         </div>
                       </td>
-                      <td>Prod-1</td>
+                      <td><%= product._id %></td>
                       <td>
                         <img
-                          src="/assets/images/product-img.png"
+                          src="/images/<%= product.image %>" 
                           class="prodimg-table-list mx-2"
                         />
                       </td>
-                      <td>Original Matte Spring Glass </td>
-                      <td>In Stock</td>
+                      <td><%= product.name %></td>
+                      <td><%= product.stock %></td>
                       <td class="action">
                         <div class="action-buttons mt-3">
                           <ul>
                             <li>
                               <a
-                                href="/frontend/admin/products/view-product.html"
+                                href="/api/product/<%= product._id %>"
                                 id="view"
                                 class="btn view-data data button_width"
                                 title="View Details"
@@ -204,7 +147,7 @@
                             </li>
                             <li>
                               <a
-                                href="/frontend/admin/products/update-products.html"
+                                href="/api/update-product/<%= product._id %>"
                                 id="edit"
                                 class="btn update-data data button_width"
                                 title="Update Details"
@@ -212,21 +155,11 @@
                                 Update
                               </a>
                             </li>
-                            <li></li>
-                            <li>
-                              <button
-                                type="button"
-                                class="btn archive-data data button_width"
-                                title="Archive Data"
-                                aria-hidden="true"
-                              >
-                                Archive
-                              </button>
-                            </li>
                           </ul>
                         </div>
                       </td>
                     </tr>
+                    <% } %>
                   </tbody>
                 </table>
                 <br /><br />
@@ -234,22 +167,24 @@
                 <!-- Batch Archive Button -->
                 <div class="d-flex justify-content-end mb-4">
                   <button
-                    type="button"
+                    type="submit"
                     class="btn archive-all-data text-white text-uppercase mb-3"
+                    id="archive-counter"
                   >
-                    Archive Products (6)
+                    Archive Products (0)
                   </button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </section>
     <!-- jQuery DataTables JS CDN -->
-    <script src="/assets/js/jquery-3.5.1.js"></script>
-    <script src="/assets/js/jquery.dataTables.min.js"></script>
-    <script src="/assets/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="/js/archive.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap5.min.js"></script>
     <script>
       let sidebar = document.querySelector(".sidebar");
       let sidebarBtn = document.querySelector(".sidebarBtn");
@@ -271,6 +206,6 @@
       });
     </script>
 
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

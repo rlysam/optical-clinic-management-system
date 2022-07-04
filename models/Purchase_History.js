@@ -11,6 +11,9 @@ const PHSchema = new mongoose.Schema({
   date: {
     type: Date,
   },
+  quantity: {
+    type: Number
+  },
   item_img: {
     type: String,
   },

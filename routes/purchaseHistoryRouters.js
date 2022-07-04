@@ -14,7 +14,9 @@ router.get("/purchase_histories", async (request, response) => {
 });
 
 // CREATE
-router.post("/purchase_history", async (request, response) => {
+router.post("/purchase_history/:id", async (request, response) => {
+  request.body.user_id = request.params.id;
+  
   const purchase_history = new PhModel(request.body);
 
   try {

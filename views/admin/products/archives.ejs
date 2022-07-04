@@ -2,16 +2,16 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/assets/css/adminSidebar.css" />
-    <link rel="stylesheet" href="/assets/css/common.css" />
-    <link rel="stylesheet" href="/assets/css/products.css" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/adminSidebar.css" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/products.css" />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
     />
     <link
-      href="/assets/css/dataTables.bootstrap5.min.css"
+      href="/css/dataTables.bootstrap5.min.css"
       rel="stylesheet"
       type="text/css"
     />
@@ -20,69 +20,7 @@
   </head>
 
   <body>
-    <div class="sidebar" id="admin-sidebar">
-      <div class="logo-details">
-        <img src="/assets/images/logo.png" class="logo" alt="Logo">
-        <span class="logo_name">Vision</span>
-      </div>
-
-      <ul class="nav-links mt-4">
-        <li>
-          <a href="../dashboard.html">
-            <i class="fa fa-th-large"></i>
-            <span class="links_name">Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a href="../customers/customers.html">
-            <i class="fa fa-users"></i>
-            <span class="links_name">Customers</span>
-          </a>
-        </li>
-        <li>
-          <a href="../attendants/attendants.html">
-            <i class="fa fa-user-md"></i>
-            <span class="links_name">Attendants</span>
-          </a>
-        </li>
-        <li>
-          <a href="../products/products.html" class="active">
-            <i class="fas fa-shopping-bag"></i>
-            <span class="links_name">Products</span>
-          </a>
-        </li>
-        <li>
-          <a href="../orders/orders.html">
-            <i class="fa fa-cart-arrow-down"></i>
-            <span class="links_name">Orders</span>
-          </a>
-        </li>
-        <li>
-          <a href="../appointment/appointment.html">
-            <i class="fa fa-calendar"></i>
-            <span class="links_name">Appointment</span>
-          </a>
-        </li>
-        <li>
-          <a href="../admins/admin-accounts.html">
-            <i class="fas fa-users-cog" aria-hidden="true"></i>
-            <span class="links_name">Admin</span>
-          </a>
-        </li>
-        <li>
-          <a href="../admin-change-password.html">
-            <i class="fa fa-key"></i>
-            <span class="links_name">Change Password</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fas fa-sign-out-alt"></i>
-            <span class="links_name">Signout</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <%- include("../../partials/admin-sidebar.ejs") %>
 
     <section class="home-section pb-3 px-3">
       <nav>
@@ -98,7 +36,7 @@
           </a>
           <div class="profile-details px-2">
             <span class="admin_name px-2">Admin Name</span>
-            <img src="/assets/images/avatar.png" alt="" />
+            <img src="/images/avatar.png" alt="" />
           </div>
         </div>
       </nav>
@@ -107,7 +45,7 @@
         <div class="container-fluid">
           <div class="d-flex mb-4 px-1">
             <!-- Archives Button -->
-            <a href="/frontend/admin/products/products.html" class="back-page">
+            <a href="/api/products" class="back-page">
               <i
                 class="fa fa-arrow-left to-back-link"
                 aria-hidden="true"
@@ -122,7 +60,9 @@
               <h4 class="px-1 pt-4 fw-bold">Archived Products</h4>
             </div>
             <hr class="my-4" />
-            <div class="container-fluid table-responsive pt-2">
+            <form
+              method="POST" action="/api/product/restore?_method=PATCH"
+              class="container-fluid table-responsive pt-2">
               <table
                 class="table table-hover align-middle align-items-center table-body"
                 aria-label="Customers' List"
@@ -136,8 +76,8 @@
                         <input
                           class="form-check-input check-all"
                           type="checkbox"
-                          value=""
-                          id="check-all-customer"
+                          id="check-all"
+                          onClick="checkAll()"
                         />
                         <label
                           class="form-check-label"
@@ -154,25 +94,29 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <% if(products) {%>
+                    <% for(let product of products) { %>
                   <tr>
                     <td>
                       <div class="form-check">
                         <input
                           class="form-check-input check-list"
                           type="checkbox"
-                          value=""
-                          id="check-one-customer"
+                          value="<%= product._id %>"
+                          id="check-one-product"
+                          name="archive-check"
+                          onClick="updateArchiveCount()"
                         />
                       </div>
                     </td>
-                    <td>Prod-1</td>
+                    <td><%= product._id %></td>
                     <td>
                       <img
-                        src="/assets/images/product-img.png"
+                        src="/images/<%= product.image %>"
                         class="prodimg-table-list mx-2"
                       />
                     </td>
-                    <td>Original Spring Glass</td>
+                    <td><%= product.name %></td>
                     <td>
                       <button
                         type="button"
@@ -183,6 +127,7 @@
                       </button>
                     </td>
                   </tr>
+                  <% }} %>
                 </tbody>
               </table>
               <br /><br />
@@ -190,11 +135,12 @@
               <!--Batch Button -->
               <div class="d-flex justify-content-end my-3 pb-4">
                 <button
-                  type="button"
+                  type="submit"
                   class="btn btn-default text-uppercase"
                   title="Restore Attendant Data"
+                  id="archive-counter"
                 >
-                  Restore Attendant (6)
+                  Restore Attendant (0)
                 </button>
               </div>
             </div>
@@ -247,9 +193,10 @@
       </div>
     </section>
     <!-- jQuery DataTables JS CDN -->
-    <script src="/assets/js/jquery-3.5.1.js"></script>
-    <script src="/assets/js/jquery.dataTables.min.js"></script>
-    <script src="/assets/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="/js/archive.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap5.min.js"></script>
     <script>
       let sidebar = document.querySelector(".sidebar");
       let sidebarBtn = document.querySelector(".sidebarBtn");
@@ -272,7 +219,7 @@
       });
     </script>
 
-    <script src="/assets/js/product.js"></script>
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/product.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

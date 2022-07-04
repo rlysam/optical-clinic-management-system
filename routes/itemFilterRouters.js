@@ -1,6 +1,6 @@
 // itemFilterRouters.js
 const express = require("express");
-const IFModel = require("../models/Item_Fitler");
+const IFModel = require("../models/Item_Filter");
 const router = express.Router();
 
 // READ

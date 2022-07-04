@@ -8,8 +8,10 @@ const AppointmentSchema = new mongoose.Schema({
 	required: true
   },
   user_id: {
-    type: String,
-	required: true
+    type: String
+  },
+  reason_for_visit: {
+    type: String
   },
   first_name: {
     type: String,
@@ -21,6 +23,10 @@ const AppointmentSchema = new mongoose.Schema({
   last_name: {
     type: String,
 	required: true
+  },
+  suffix: {
+    type: String,
+    default: ""
   },
   sex: {
     type: String,
@@ -45,6 +51,9 @@ const AppointmentSchema = new mongoose.Schema({
   },
   last_eye_grade: {
     type: String,
+  },
+  is_first_time: {
+    type: Boolean
   },
   date_added: {
     type: Date,

@@ -14,12 +14,12 @@ router.get("/eye_histories", async (request, response) => {
 });
 
 // CREATE
-router.post("/eye_history", async (request, response) => {
+router.post("/eye_history/:id", async (request, response) => {
   const eye_history = new EhModel(request.body);
 
   try {
     await eye_history.save();
-    response.send(eye_history);
+    response.redirect("/api/customer/" + request.params.id);
   } catch (error) {
     response.status(500).send(error);
   }

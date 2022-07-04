@@ -566,7 +566,7 @@
                         name="suffix"
                         class="form-control"
                         id="suffixAttendantView"
-                        value="N/A"
+                        value="<%= attendant.suffix %>"
                         readonly
                       />
                     </div>
@@ -832,7 +832,7 @@
                           name="suffix"
                           class="form-control"
                           id="suffixAttendantUpdate"
-                          value="N/A"
+                          value="<%= attendant.suffix %>"
                         />
                       </div>
                     </div>
@@ -989,6 +989,7 @@
     <!-- jQuery DataTables JS CDN -->
     <script src="/js/jquery-3.5.1.js"></script>
     <script src="/js/attendant.js"></script>
+    <script src="/js/archive.js"></script>
     <script src="/js/jquery.dataTables.min.js"></script>
     <script src="/js/dataTables.bootstrap5.min.js"></script>
     <script>

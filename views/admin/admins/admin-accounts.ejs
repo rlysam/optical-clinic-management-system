@@ -2,16 +2,16 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <link href="\assets\css\bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="\assets\css\adminSidebar.css" />
-    <link rel="stylesheet" href="\assets\css\attendants.css" />
-    <link rel="stylesheet" href="\assets\css\common.css" />
+    <link href="\css\bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="\css\adminSidebar.css" />
+    <link rel="stylesheet" href="\css\attendants.css" />
+    <link rel="stylesheet" href="\css\common.css" />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
     />
     <link
-      href="/assets/css/dataTables.bootstrap5.min.css"
+      href="/css/dataTables.bootstrap5.min.css"
       rel="stylesheet"
       type="text/css"
     />
@@ -20,69 +20,8 @@
   </head>
 
   <body>
-    <div class="sidebar" id="admin-sidebar">
-      <div class="logo-details">
-        <img src="/assets/images/logo.png" class="logo" alt="Logo" />
-        <span class="logo_name">Vision</span>
-      </div>
-
-      <ul class="nav-links mt-4">
-        <li>
-          <a href="../dashboard.html">
-            <i class="fa fa-th-large"></i>
-            <span class="links_name">Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a href="../customers/customers.html">
-            <i class="fa fa-users"></i>
-            <span class="links_name">Customers</span>
-          </a>
-        </li>
-        <li>
-          <a href="../attendants/attendants.html">
-            <i class="fa fa-user-md"></i>
-            <span class="links_name">Attendants</span>
-          </a>
-        </li>
-        <li>
-          <a href="../products/products.html">
-            <i class="fas fa-shopping-bag"></i>
-            <span class="links_name">Products</span>
-          </a>
-        </li>
-        <li>
-          <a href="../orders/orders.html">
-            <i class="fa fa-cart-arrow-down"></i>
-            <span class="links_name">Orders</span>
-          </a>
-        </li>
-        <li>
-          <a href="../appointment/appointment.html">
-            <i class="fa fa-calendar"></i>
-            <span class="links_name">Appointment</span>
-          </a>
-        </li>
-        <li>
-          <a href="../admins/admin-accounts.html" class="active">
-            <i class="fas fa-users-cog" aria-hidden="true"></i>
-            <span class="links_name">Admin</span>
-          </a>
-        </li>
-        <li>
-          <a href="../admin-change-password.html">
-            <i class="fa fa-key"></i>
-            <span class="links_name">Change Password</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fas fa-sign-out-alt"></i>
-            <span class="links_name">Signout</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <%- include("../../partials/admin-sidebar.ejs") %>
+    <%- include("../../partials/convertDate.ejs") %>
 
     <section class="home-section">
       <nav>
@@ -98,7 +37,7 @@
           </a>
           <div class="profile-details px-2">
             <span class="admin_name px-2">Admin Name</span>
-            <img src="/assets/images/avatar.png" alt="" />
+            <img src="/images/avatar.png" alt="" />
           </div>
         </div>
       </nav>
@@ -143,7 +82,9 @@
             <div
               class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
             >
-              <div class="modal-content">
+              <form
+                method="POST" action="/api/admin"
+                class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title fw-bold text-uppercase px-2">
                     New Admin
@@ -156,11 +97,10 @@
                   ></button>
                 </div>
                 <div class="modal-body">
-                  <form action="">
                     <div class="container-fluid">
                       <div class="profile-pic-div">
                         <img
-                          src="/assets/images/avatar.png"
+                          src="/images/avatar.png"
                           alt="avatar"
                           id="photo"
                         />
@@ -178,14 +118,13 @@
                           </label>
                           <input
                             type="date"
-                            name="date"
+                            name="date_added"
                             minlength="11"
                             maxlength="11"
                             class="form-control"
                             aria-label="Date Added"
                             placeholder="Date Added"
                             required
-                            readonly
                           />
                         </div>
                       </div>
@@ -198,7 +137,7 @@
                           </label>
                           <input
                             type="text"
-                            name="fname"
+                            name="first_name"
                             class="form-control"
                             id="fnameAdmin"
                             placeholder="First Name"
@@ -211,7 +150,7 @@
                           </label>
                           <input
                             type="text"
-                            name="midname"
+                            name="middle_name"
                             class="form-control"
                             id="midnameAdmin"
                             placeholder="Middle Name"
@@ -223,7 +162,7 @@
                           </label>
                           <input
                             type="text"
-                            name="surname"
+                            name="last_name"
                             class="form-control"
                             id="surnameAdmin"
                             placeholder="Last Name"
@@ -260,13 +199,15 @@
                             placeholder="Email Address"
                             required
                           />
+                          <input type="hidden" value="Admin" name="title">
+                          <input type="hidden" value="true" name="is_admin">
+                          <input type="hidden" value="N/A" name="contact">
                         </div>
                       </div>
                     </div>
-                  </form>
                 </div>
                 <div class="modal-footer mx-3">
-                  <button type="button" class="btn btn-default px-3 mx-2">
+                  <button type="submit" class="btn btn-default px-3 mx-2">
                     Save
                   </button>
                   <button
@@ -277,7 +218,7 @@
                     Close
                   </button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
 
@@ -321,67 +262,70 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <div class="form-check">
-                          <input
-                            class="form-check-input check-list"
-                            type="checkbox"
-                            value=""
-                            id="check-one-customer"
-                          />
-                        </div>
-                      </td>
-                      <td>Admin-1</td>
-                      <td>
-                        <img
-                          src="/assets/images/avatar.png"
-                          class="img-table-list mx-2"
-                        />juan dela cruz
-                      </td>
-                      <td>juandelacruz@gmail.com</td>
-                      <td class="action">
-                        <div class="action-buttons">
-                          <ul>
-                            <li>
-                              <button
-                                type="button"
-                                id="view"
-                                class="btn view-data data button_width"
-                                data-bs-toggle="modal"
-                                data-bs-target="#viewAdmin"
-                                title="View Details"
-                              >
-                                View
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                type="button"
-                                id="edit"
-                                class="btn update-data data button_width"
-                                data-bs-toggle="modal"
-                                data-bs-target="#updateAdmin"
-                                title="Update Details"
-                              >
-                                Update
-                              </button>
-                            </li>
-                            <li></li>
-                            <li>
-                              <button
-                                type="button"
-                                class="btn archive-data data button_width"
-                                title="Archive Data"
-                                aria-hidden="true"
-                              >
-                                Activated
-                              </button>
-                            </li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
+                    <% if(admins) { %>
+                      <% for(let admin of admins) { %>
+                        <tr>
+                          <td>
+                            <div class="form-check">
+                              <input
+                                class="form-check-input check-list"
+                                type="checkbox"
+                                value=""
+                                id="check-one-customer"
+                              />
+                            </div>
+                          </td>
+                          <td><%= admin._id %></td>
+                          <td>
+                            <img
+                              src="/images/avatar.png"
+                              class="img-table-list mx-2"
+                            /><%= admin.first_name + " " + admin.middle_name + " " + admin.last_name %>
+                          </td>
+                          <td><%= admin.email %></td>
+                          <td class="action">
+                            <div class="action-buttons">
+                              <ul>
+                                <li>
+                                  <button
+                                    type="button"
+                                    id="view"
+                                    class="btn view-data data button_width"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#a<%= admin._id %>"
+                                    title="View Details"
+                                  >
+                                    View
+                                  </button>
+                                </li>
+                                <li>
+                                  <button
+                                    type="button"
+                                    id="edit"
+                                    class="btn update-data data button_width"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#aa<%= admin.id %>"
+                                    title="Update Details"
+                                  >
+                                    Update
+                                  </button>
+                                </li>
+                                <li></li>
+                                <li>
+                                  <button
+                                    type="button"
+                                    class="btn archive-data data button_width"
+                                    title="Archive Data"
+                                    aria-hidden="true"
+                                  >
+                                    Activated
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                    <% }} %>
                   </tbody>
                 </table>
                 <br />
@@ -401,9 +345,11 @@
         </div>
 
         <!-- View Attendant Details Modal -->
+        <% if(admins) { %>
+          <% for(let admin of admins) {%>
         <div
           class="modal fade"
-          id="viewAdmin"
+          id="a<%= admin._id %>"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabindex="-1"
@@ -430,7 +376,7 @@
                 <div class="container-fluid">
                   <div class="profile-pic-div">
                     <img
-                      src="/assets/images/avatar.png"
+                      src="/images/avatar.png"
                       alt="avatar"
                       id="photoView"
                     />
@@ -449,6 +395,7 @@
                         maxlength="11"
                         class="form-control"
                         aria-label="Date Added"
+                        value="<%= formatDate(admin.date_added) %>"
                         readonly
                       />
                     </div>
@@ -465,6 +412,7 @@
                         name="fname"
                         class="form-control"
                         id="fnameAdminView"
+                        value="<%= admin.first_name %>"
                         readonly
                       />
                     </div>
@@ -477,6 +425,7 @@
                         name="midname"
                         class="form-control"
                         id="midnameAdminView"
+                        value="<%= admin.middle_name %>"
                         readonly
                       />
                     </div>
@@ -491,6 +440,7 @@
                         name="surname"
                         class="form-control"
                         id="surnameAdminView"
+                        value="<%= admin.last_name %>"
                         readonly
                       />
                     </div>
@@ -503,6 +453,7 @@
                         name="suffix"
                         class="form-control"
                         id="suffixAdminView"
+                        value="<%= admin.suffix %>"
                         readonly
                       />
                     </div>
@@ -521,6 +472,7 @@
                         name="email"
                         class="form-control"
                         id="emailAttendantView"
+                        value="<%= admin.email %>"
                         readonly
                       />
                     </div>
@@ -539,11 +491,14 @@
             </div>
           </div>
         </div>
+        <% }} %>
 
         <!-- Update Admin Details Modal -->
+        <% if(admins) { %>
+          <% for(let admin of admins) { %>
         <div
           class="modal fade"
-          id="updateAdmin"
+          id="aa<%= admin._id %>"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabindex="-1"
@@ -554,7 +509,9 @@
           <div
             class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
           >
-            <div class="modal-content">
+            <form 
+              method="POST" action="/api/admin/<%= admin._id %>?_method=PATCH"
+              class="modal-content">
               <div class="modal-header">
                 <h5
                   class="modal-title fw-bold text-uppercase px-2"
@@ -571,11 +528,10 @@
               </div>
               <div class="modal-body">
                 <div class="container-fluid">
-                  <form action="">
                     <!-- Update Photo -->
                     <div class="profile-pic-div">
                       <img
-                        src="../assets/images/avatar.png"
+                        src="../images/avatar.png"
                         alt="avatar"
                         id="photoUpdate"
                       />
@@ -593,12 +549,13 @@
                         </label>
                         <input
                           type="date"
-                          name="date"
+                          name="date_added"
                           id="dateAdminUpdate"
                           minlength="11"
                           maxlength="11"
                           class="form-control"
                           aria-label="Date Added"
+                          value="<%= formatDate(admin.date_added) %>"
                           required
                           readonly
                         />
@@ -615,10 +572,10 @@
                         </label>
                         <input
                           type="text"
-                          name="fname"
+                          name="first_name"
                           class="form-control"
                           id="fnameAdminUpdate"
-                          value="Juan "
+                          value="<%= admin.first_name %>"
                           required
                         />
                       </div>
@@ -628,10 +585,10 @@
                         </label>
                         <input
                           type="text"
-                          name="midname"
+                          name="middle_name"
                           class="form-control"
                           id="midnameAdminUpdate"
-                          value="Francisco"
+                          value="<%= admin.middle_name %>"
                         />
                       </div>
                       <div class="col-lg-3 col-md-6 py-2">
@@ -642,10 +599,10 @@
                         </label>
                         <input
                           type="text"
-                          name="surname"
+                          name="last_name"
                           class="form-control"
                           id="surnameAdminUpdate"
-                          value="Dela Cruz"
+                          value="<%= admin.last_name %>"
                           required
                         />
                       </div>
@@ -658,7 +615,7 @@
                           name="suffix"
                           class="form-control"
                           id="suffixAdminUpdate"
-                          value=""
+                          value="<%= admin.suffix %>"
                         />
                       </div>
                     </div>
@@ -676,16 +633,15 @@
                           name="email"
                           class="form-control"
                           id="emailAdminUpdate"
-                          value="sample@gmail.com"
+                          value="<%= admin.email %>"
                           required
                         />
                       </div>
                     </div>
-                  </form>
                 </div>
               </div>
               <div class="modal-footer mx-2">
-                <button type="button" class="btn btn-default">
+                <button type="submit" class="btn btn-default">
                   Save Changes
                 </button>
                 <button
@@ -696,15 +652,16 @@
                   Close
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
+        <% }} %>
       </div>
     </section>
     <!-- jQuery DataTables JS CDN -->
-    <script src="\assets/js/jquery-3.5.1.js"></script>
-    <script src="\assets/js/jquery.dataTables.min.js"></script>
-    <script src="\assets/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap5.min.js"></script>
     <script>
       let sidebar = document.querySelector(".sidebar");
       let sidebarBtn = document.querySelector(".sidebarBtn");
@@ -726,7 +683,7 @@
       });
     </script>
 
-    <script src="\assets/js/attendants.js"></script>
-    <script src="\assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/attendants.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

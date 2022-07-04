@@ -1,5 +1,5 @@
 const express = require("express");
-const FilterModel = require("../models/Fitler");
+const FilterModel = require("../models/Filter");
 const router = express.Router();
 
 // READ

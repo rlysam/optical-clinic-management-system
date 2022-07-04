@@ -1,11 +1,11 @@
 const { response } = require("express");
 const express = require("express");
-const attendantModel = require("../models/Attendant");
+const AttendantModel = require("../models/Attendant");
 const router = express.Router();
 
 // READ
 router.get("/attendants", async (request, response) => {
-  const attendants = await attendantModel.find({is_archived: false});
+  const attendants = await AttendantModel.find({is_archived: false});
 
   try {
     response.render("admin/attendants/attendants.ejs", {attendants});
@@ -16,7 +16,7 @@ router.get("/attendants", async (request, response) => {
 });
 
 router.get("/attendants/archives/", async (request, response) => {
-  const attendants = await attendantModel.find({is_archived: true});
+  const attendants = await AttendantModel.find({is_archived: true});
 
   try {
     response.render("admin/attendants/archives.ejs", {attendants});
@@ -30,7 +30,7 @@ router.get("/attendants/archives/", async (request, response) => {
 
 // CREATE
 router.post("/attendant", async (request, response) => {
-  const attendant = new attendantModel(request.body);
+  const attendant = new AttendantModel(request.body);
   
   try {
     await attendant.save();
@@ -47,7 +47,13 @@ router.patch("/attendant/archive", async (request, response) => {
 
   if(archives["archive-check"]) {
     for(let archive of archives["archive-check"]) {
-      await attendantModel.findByIdAndUpdate(archive, {is_archived: true});
+      if(archive.length === 1) {
+        await AttendantModel.findByIdAndUpdate(archives["archive-check"], {is_archived: true});
+        break;
+      }
+      else {
+        await AttendantModel.findByIdAndUpdate(archive, {is_archived: true});
+      }
     }
   }
 
@@ -60,7 +66,13 @@ router.patch("/attendant/restore", async (request, response) => {
 
   if(restores["archive-check"]) {
     for(let restore of restores["archive-check"]) {
-      await attendantModel.findByIdAndUpdate(restore, {is_archived: false});
+      if(restore.length === 1) {
+        await AttendantModel.findByIdAndUpdate(restores["archive-check"], {is_archived: false});
+        break;
+      }
+      else {
+        await AttendantModel.findByIdAndUpdate(restore, {is_archived: false});
+      }
     }
   }
 
@@ -71,7 +83,7 @@ router.patch("/attendant/restore", async (request, response) => {
 router.patch("/attendant/:id", async (request, response) => {
 
   try {    
-    await attendantModel.findByIdAndUpdate(request.params.id, request.body);
+    await AttendantModel.findByIdAndUpdate(request.params.id, request.body);
    
     response.redirect("/api/attendants");
   } catch (error) {
@@ -84,7 +96,7 @@ router.patch("/attendant/:id", async (request, response) => {
 // DELETE
 router.delete("/attendant/:id", async (request, response) => {
   try {
-    const attendant = await attendantModel.findByIdAndDelete(request.params.id);
+    const attendant = await AttendantModel.findByIdAndDelete(request.params.id);
 
     if (!attendant) response.status(404).send("No item found");
     response.status(200).send();

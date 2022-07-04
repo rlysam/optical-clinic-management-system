@@ -6,7 +6,7 @@ const FilterSchema = new mongoose.Schema({
     type: String,
   },
   type: {
-    type: Number,
+    type: String,
   },
   date_added: {
     type: Date,

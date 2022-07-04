@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ItemSchema = new mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
 
   name: {
     type: String,
@@ -17,10 +17,24 @@ const ItemSchema = new mongoose.Schema({
   price: {
     type: Number,
   },
-
   is_archived: {
     type: Boolean,
 	default:false,
+  },
+  lens: {
+    type: String
+  },
+  width: {
+    type: String
+  },
+  material: {
+    type: String
+  },
+  hinge: {
+    type: String
+  },
+  finish: {
+    type: String
   },
   date_added: {
     type: Date,
@@ -28,6 +42,6 @@ const ItemSchema = new mongoose.Schema({
 });
 
 // ! Ito yung collection name, First param
-const Item = mongoose.model("Item", ItemSchema);
+const Product = mongoose.model("Product", ProductSchema);
 
-module.exports = Item;
+module.exports = Product;

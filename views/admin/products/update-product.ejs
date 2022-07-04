@@ -2,16 +2,16 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/assets/css/adminSidebar.css" />
-    <link rel="stylesheet" href="/assets/css/common.css" />
-    <link rel="stylesheet" href="/assets/css/products.css" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/adminSidebar.css" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/products.css" />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
     />
     <link
-      href="/assets/css/dataTables.bootstrap5.min.css"
+      href="/css/dataTables.bootstrap5.min.css"
       rel="stylesheet"
       type="text/css"
     />
@@ -20,69 +20,8 @@
   </head>
 
   <body>
-    <div class="sidebar" id="admin-sidebar">
-      <div class="logo-details">
-        <img src="/assets/images/logo.png" class="logo" alt="Logo">
-        <span class="logo_name">Vision</span>
-      </div>
-
-      <ul class="nav-links mt-4">
-        <li>
-          <a href="../dashboard.html">
-            <i class="fa fa-th-large"></i>
-            <span class="links_name">Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a href="../customers/customers.html">
-            <i class="fa fa-users"></i>
-            <span class="links_name">Customers</span>
-          </a>
-        </li>
-        <li>
-          <a href="../attendants/attendants.html">
-            <i class="fa fa-user-md"></i>
-            <span class="links_name">Attendants</span>
-          </a>
-        </li>
-        <li>
-          <a href="../products/products.html" class="active">
-            <i class="fas fa-shopping-bag"></i>
-            <span class="links_name">Products</span>
-          </a>
-        </li>
-        <li>
-          <a href="../orders/orders.html">
-            <i class="fa fa-cart-arrow-down"></i>
-            <span class="links_name">Orders</span>
-          </a>
-        </li>
-        <li>
-          <a href="../appointment/appointment.html">
-            <i class="fa fa-calendar"></i>
-            <span class="links_name">Appointment</span>
-          </a>
-        </li>
-        <li>
-          <a href="../admins/admin-accounts.html">
-            <i class="fas fa-users-cog" aria-hidden="true"></i>
-            <span class="links_name">Admin</span>
-          </a>
-        </li>
-        <li>
-          <a href="../admin-change-password.html">
-            <i class="fa fa-key"></i>
-            <span class="links_name">Change Password</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fas fa-sign-out-alt"></i>
-            <span class="links_name">Signout</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <%- include("../../partials/admin-sidebar.ejs") %>
+    <%- include("../../partials/convertDate.ejs") %>
 
     <section class="home-section pb-3 px-3">
       <nav>
@@ -98,7 +37,7 @@
           </a>
           <div class="profile-details px-2">
             <span class="admin_name px-2">Admin Name</span>
-            <img src="/assets/images/avatar.png" alt="" />
+            <img src="/images/avatar.png" alt="" />
           </div>
         </div>
       </nav>
@@ -116,7 +55,7 @@
             </a>
             <span class="page-title px-3">Update Product Details</span>
           </div>
-          <form action="" method="#" id="product-div">
+          <form method="POST" action="/api/product/<%= product._id %>?_method=PATCH" id="product-div">
             <div class="container">
               <div class="row my-3">
                 <div class="col-lg-3 p-0">
@@ -125,10 +64,11 @@
                 <div class="col-lg-9 fw-bold">
                   <input
                     type="date"
-                    name="date"
+                    name="date_added"
                     class="form-control fw-bold"
                     aria-label="Date Added"
                     placeholder="Date Added"
+                    value="<%= formatDate(product.date_added) %>"
                     required
                   />
                 </div>
@@ -141,9 +81,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    name="productID"
                     id="product-id"
                     placeholder="Product ID AUTO GENERATED"
+                    value="<%= product._id %>"
                     readonly
                   />
                 </div>
@@ -162,6 +102,8 @@
                     class="form-control px-3"
                     type="file"
                     id="file-product"
+                    value="images/<%= product.image %>"
+                    name="image"
                     required
                   />
                 </div>
@@ -169,7 +111,7 @@
 
               <div class="product-img-div">
                 <img
-                  src="/assets/images/img-preview.png"
+                  src="/images/<%= product.image %>"
                   alt="Product Image"
                   id="product-img"
                 />
@@ -181,10 +123,11 @@
               </label>
               <input
                 type="text"
-                name="productName"
+                name="name"
                 class="form-control"
                 id="product-name"
                 placeholder="Input Product Name"
+                value="<%= product.name %>"
                 required
               />
 
@@ -194,14 +137,13 @@
               </label>
               <textarea
                 class="form-control"
-                name="details"
+                name="description"
                 id="product-description"
                 placeholder="Type product description...."
                 rows="5"
                 cols="100"
                 required
-              >
-              </textarea>
+              ><%= product.description %></textarea>
 
               <!-- Filters -->
               <!-- Lens Type & Width -->
@@ -214,13 +156,14 @@
                     class="form-select"
                     aria-label="Product Lens Type"
                     id="product-lens"
+                    name="lens"
                     required
                   >
-                    <option selected readonly disabled>
-                      Please select lens
-                    </option>
-                    <option>Normal</option>
-                    <option>UV Lens</option>
+                  <% for(let filter of filters) { %>
+                    <% if(filter.type == "Lens") { %>
+                    <option value="<%= filter.name %>" <%= (product.lens == filter.name)? "selected": "" %>><%= filter.name %></option>
+                    <% } %>
+                  <% } %>
                   </select>
                 </div>
                 <div class="col-lg-6 py-2">
@@ -231,15 +174,14 @@
                     class="form-select"
                     aria-label="Product Width"
                     id="product-width"
-                    required
+                    required 
+                    name="width"
                   >
-                    <option selected readonly disabled>
-                      Please select width
-                    </option>
-                    <option>Narrow</option>
-                    <option>Wide</option>
-                    <option>Medium</option>
-                    <option>Extra wide</option>
+                  <% for(let filter of filters) { %>
+                    <% if(filter.type == "Width") { %>
+                    <option value="<%= filter.name %>" <%= (product.lens == filter.name)? "selected": "" %>><%= filter.name %></option>
+                    <% } %>
+                  <% } %>
                   </select>
                 </div>
               </div>
@@ -255,14 +197,13 @@
                     aria-label="Product Material"
                     id="product-material"
                     required
+                    name="material"
                   >
-                    <option selected readonly disabled>
-                      Please select material
-                    </option>
-                    <option>Metal</option>
-                    <option>Mixed</option>
-                    <option>Polycarbonate</option>
-                    <option>Recycled Polyester</option>
+                  <% for(let filter of filters) { %>
+                    <% if(filter.type == "Material") { %>
+                    <option value="<%= filter.name %>" <%= (product.lens == filter.name)? "selected": "" %>><%= filter.name %></option>
+                    <% } %>
+                  <% } %>
                   </select>
                 </div>
                 <div class="col-lg-6 py-2">
@@ -274,13 +215,13 @@
                     aria-label="Product Width"
                     id="product-hinge"
                     required
+                    name="hinge"
                   >
-                    <option selected readonly disabled>
-                      Please select hinge
-                    </option>
-                    <option>Standard</option>
-                    <option>Spring</option>
-                    <option>Hingless</option>
+                  <% for(let filter of filters) { %>
+                    <% if(filter.type == "Hinge") { %>
+                    <option value="<%= filter.name %>" <%= (product.lens == filter.name)? "selected": "" %>><%= filter.name %></option>
+                    <% } %>
+                  <% } %>
                   </select>
                 </div>
               </div>
@@ -296,12 +237,13 @@
                     aria-label="Product Material"
                     id="product-finish"
                     required
+                    name="finish"
                   >
-                    <option selected readonly disabled>
-                      Please select material
-                    </option>
-                    <option>Matte</option>
-                    <option>Shiny</option>
+                  <% for(let filter of filters) { %>
+                    <% if(filter.type == "Finish") { %>
+                    <option value="<%= filter.name %>" <%= (product.lens == filter.name)? "selected": "" %>><%= filter.name %></option>
+                    <% } %>
+                  <% } %>
                   </select>
                 </div>
               </div>
@@ -318,6 +260,8 @@
                     id="product-stock"
                     placeholder="Input product stock"
                     required
+                    value="<%= product.stock %>"
+                    name="stock"
                   />
                 </div>
               </div>
@@ -334,6 +278,8 @@
                     id="product-price"
                     placeholder="Input product price"
                     required
+                    value="<%= product.price %>"
+                    name="price"
                   />
                 </div>
               </div>
@@ -342,9 +288,9 @@
             <!-- buttons -->
             <div class="container">
               <div class="d-flex justify-content-end pb-2 pt-5">
-                <button type="button" class="btn btn-default mx-3 px-4">Save</button>
+                <button type="submit" class="btn btn-default mx-3 px-4">Save</button>
                 <a
-                  href="../products/view-product.html"
+                  href="/api/product/<%= product._id %>"
                   class="btn btn-danger px-3"
                   >Cancel</a
                 >
@@ -355,9 +301,9 @@
       </div>
     </section>
     <!-- jQuery DataTables JS CDN -->
-    <script src="/assets/js/jquery-3.5.1.js"></script>
-    <script src="/assets/js/jquery.dataTables.min.js"></script>
-    <script src="/assets/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap5.min.js"></script>
     <script>
       let sidebar = document.querySelector(".sidebar");
       let sidebarBtn = document.querySelector(".sidebarBtn");
@@ -369,7 +315,7 @@
       };
     </script>
 
-    <script src="/assets/js/product.js"></script>
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/product.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

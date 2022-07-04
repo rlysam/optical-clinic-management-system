@@ -2,16 +2,16 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/assets/css/adminSidebar.css" />
-    <link rel="stylesheet" href="/assets/css/common.css" />
-    <link rel="stylesheet" href="/assets/css/products.css" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/adminSidebar.css" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/products.css" />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
     />
     <link
-      href="/assets/css/dataTables.bootstrap5.min.css"
+      href="/css/dataTables.bootstrap5.min.css"
       rel="stylesheet"
       type="text/css"
     />
@@ -20,69 +20,7 @@
   </head>
 
   <body>
-    <div class="sidebar" id="admin-sidebar">
-      <div class="logo-details">
-        <img src="/assets/images/logo.png" class="logo" alt="Logo">
-        <span class="logo_name">Vision</span>
-      </div>
-
-      <ul class="nav-links mt-4">
-        <li>
-          <a href="../dashboard.html">
-            <i class="fa fa-th-large"></i>
-            <span class="links_name">Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a href="../customers/customers.html">
-            <i class="fa fa-users"></i>
-            <span class="links_name">Customers</span>
-          </a>
-        </li>
-        <li>
-          <a href="../attendants/attendants.html">
-            <i class="fa fa-user-md"></i>
-            <span class="links_name">Attendants</span>
-          </a>
-        </li>
-        <li>
-          <a href="../products/products.html" class="active">
-            <i class="fas fa-shopping-bag"></i>
-            <span class="links_name">Products</span>
-          </a>
-        </li>
-        <li>
-          <a href="../orders/orders.html">
-            <i class="fa fa-cart-arrow-down"></i>
-            <span class="links_name">Orders</span>
-          </a>
-        </li>
-        <li>
-          <a href="../appointment/appointment.html">
-            <i class="fa fa-calendar"></i>
-            <span class="links_name">Appointment</span>
-          </a>
-        </li>
-        <li>
-          <a href="../admins/admin-accounts.html">
-            <i class="fas fa-users-cog" aria-hidden="true"></i>
-            <span class="links_name">Admin</span>
-          </a>
-        </li>
-        <li>
-          <a href="../admin-change-password.html">
-            <i class="fa fa-key"></i>
-            <span class="links_name">Change Password</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fas fa-sign-out-alt"></i>
-            <span class="links_name">Signout</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <%- include("../../partials/admin-sidebar.ejs") %>
 
     <section class="home-section pb-3 px-3">
       <nav>
@@ -98,7 +36,7 @@
           </a>
           <div class="profile-details px-2">
             <span class="admin_name px-2">Admin Name</span>
-            <img src="/assets/images/avatar.png" alt="" />
+            <img src="/images/avatar.png" alt="" />
           </div>
         </div>
       </nav>
@@ -107,7 +45,7 @@
         <div class="container-fluid">
           <div class="d-flex mb-4 px-1">
             <!-- Archives Button -->
-            <a href="/frontend/admin/products/products.html" class="back-page">
+            <a href="/api/products" class="back-page">
               <i
                 class="fa fa-arrow-left to-back-link"
                 aria-hidden="true"
@@ -116,7 +54,7 @@
             </a>
             <span class="page-title px-3">Add New Product</span>
           </div>
-          <form action="" method="#" id="product-div">
+          <form method="POST" action="/api/product" id="product-div">
             <div class="container">
               <div class="row my-3">
                 <div class="col-lg-3 p-0">
@@ -125,7 +63,7 @@
                 <div class="col-lg-9">
                   <input
                     type="date"
-                    name="date"
+                    name="date_added"
                     class="form-control fw-bold"
                     aria-label="Date Added"
                     placeholder="Date Added"
@@ -147,6 +85,7 @@
                     class="form-control px-3"
                     type="file"
                     id="file-product"
+                    name="image"
                     required
                   />
                 </div>
@@ -154,7 +93,7 @@
 
               <div class="product-img-div">
                 <img
-                  src="/assets/images/img-preview.png"
+                  src="/images/img-preview.png"
                   alt="Product Image"
                   id="product-img"
                 />
@@ -166,7 +105,7 @@
               </label>
               <input
                 type="text"
-                name="productName"
+                name="name"
                 class="form-control"
                 id="product-name"
                 placeholder="Input Product Name"
@@ -179,14 +118,13 @@
               </label>
               <textarea
                 class="form-control"
-                name="details"
+                name="description"
                 id="product-description"
                 placeholder="Type product description...."
                 rows="5"
                 cols="100"
                 required
-              >
-              </textarea>
+              ></textarea>
 
               <!-- Filters -->
               <!-- Lens Type & Width -->
@@ -199,13 +137,11 @@
                     class="form-select"
                     aria-label="Product Lens Type"
                     id="product-lens"
+                    name="lens"
                     required
                   >
-                    <option selected readonly disabled>
-                      Please select lens
-                    </option>
-                    <option>Normal</option>
-                    <option>UV Lens</option>
+                    <option value="Normal" selected>Normal</option>
+                    <option value="UV Lens">UV Lens</option>
                   </select>
                 </div>
                 <div class="col-lg-6 py-2">
@@ -216,15 +152,13 @@
                     class="form-select"
                     aria-label="Product Width"
                     id="product-width"
+                    name="width"
                     required
                   >
-                    <option selected readonly disabled>
-                      Please select width
-                    </option>
-                    <option>Narrow</option>
-                    <option>Wide</option>
-                    <option>Medium</option>
-                    <option>Extra wide</option>
+                    <option value="Narrow" selected>Narrow</option>
+                    <option value="Wide" >Wide</option>
+                    <option value="Medium" >Medium</option>
+                    <option value="Extra wide" >Extra wide</option>
                   </select>
                 </div>
               </div>
@@ -239,15 +173,13 @@
                     class="form-select"
                     aria-label="Product Material"
                     id="product-material"
+                    name="material"
                     required
                   >
-                    <option selected readonly disabled>
-                      Please select material
-                    </option>
-                    <option>Metal</option>
-                    <option>Mixed</option>
-                    <option>Polycarbonate</option>
-                    <option>Recycled Polyester</option>
+                    <option value="Metal" selected>Metal</option>
+                    <option value="Mixed" >Mixed</option>
+                    <option value="Polycarbonate" >Polycarbonate</option>
+                    <option value="Recycled Polyester">Recycled Polyester</option>
                   </select>
                 </div>
                 <div class="col-lg-6 py-2">
@@ -258,14 +190,12 @@
                     class="form-select"
                     aria-label="Product Width"
                     id="product-hinge"
+                    name="hinge"
                     required
                   >
-                    <option selected readonly disabled>
-                      Please select hinge
-                    </option>
-                    <option>Standard</option>
-                    <option>Spring</option>
-                    <option>Hingless</option>
+                    <option value="Standard" selected>Standard</option>
+                    <option value="Spring" >Spring</option>
+                    <option value="Hingeless" >Hingeless</option>
                   </select>
                 </div>
               </div>
@@ -280,13 +210,11 @@
                     class="form-select"
                     aria-label="Product Material"
                     id="product-finish"
+                    name="finish"
                     required
                   >
-                    <option selected readonly disabled>
-                      Please select finish
-                    </option>
-                    <option>Matte</option>
-                    <option>Shiny</option>
+                    <option value="Matte" selected>Matte</option>
+                    <option value="Shiny" >Shiny</option>
                   </select>
                 </div>
               </div>
@@ -302,6 +230,8 @@
                     class="form-control"
                     id="product-stock"
                     placeholder="Input product stock"
+                    name="stock"
+                    required
                   />
                 </div>
               </div>
@@ -313,10 +243,12 @@
                     >Product Price:
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="product-price"
                     placeholder="Input product price"
+                    name="price"
+                    required
                   />
                 </div>
               </div>
@@ -325,7 +257,7 @@
               <div class="container">
                 <div class="d-flex justify-content-end pb-2 pt-5">
                   <button
-                    type="button"
+                    type="submit"
                     class="btn btn-default mx-3"
                     title="Save Data"
                   >
@@ -346,9 +278,9 @@
       </div>
     </section>
     <!-- jQuery DataTables JS CDN -->
-    <script src="/assets/js/jquery-3.5.1.js"></script>
-    <script src="/assets/js/jquery.dataTables.min.js"></script>
-    <script src="/assets/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap5.min.js"></script>
     <script>
       let sidebar = document.querySelector(".sidebar");
       let sidebarBtn = document.querySelector(".sidebarBtn");
@@ -360,7 +292,7 @@
       };
     </script>
 
-    <script src="/assets/js/product.js"></script>
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/product.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

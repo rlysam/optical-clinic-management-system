@@ -14,6 +14,10 @@ const AttendantSchema = new mongoose.Schema({
     type: String,
 	required: true
   },
+  suffix: {
+    type: String,
+    default: ""
+  },
   title: {
     type: String,
   required: true
@@ -37,7 +41,11 @@ const AttendantSchema = new mongoose.Schema({
   },
   is_archived: {
     type: Boolean,
-	default:false,
+	  default:false,
+  },
+  is_admin: {
+    type: Boolean,
+    default: false,
   },
   date_added: {
     type: Date

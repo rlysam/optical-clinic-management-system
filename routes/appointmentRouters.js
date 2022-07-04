@@ -7,7 +7,7 @@ router.get("/appointments", async (request, response) => {
   const appointments = await appointmentModel.find({});
 
   try {
-    response.send(appointments);
+    response.render("admin/appointment/appointment.ejs", {appointments});
   } catch (error) {
     response.status(500).send(error);
   }
