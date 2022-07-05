@@ -5,7 +5,10 @@ const AppointmentSchema = new mongoose.Schema({
   //  user id, meron na agad...
   attendant_id: {
     type: String,
-	required: true
+  },
+  attendant_name: {
+    type: String,
+    default: "Unassigned"
   },
   user_id: {
     type: String
@@ -45,6 +48,7 @@ const AppointmentSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    default: "Unassigned"
   },
   last_eye_exam: {
     type: Date,
@@ -54,6 +58,16 @@ const AppointmentSchema = new mongoose.Schema({
   },
   is_first_time: {
     type: Boolean
+  },
+  appointment_date: {
+    type: Date
+  },
+  appointment_time: {
+    type: String
+  },
+  appointment_status: {
+    type: Number,
+    default: 1
   },
   date_added: {
     type: Date,

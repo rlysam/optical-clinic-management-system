@@ -8,12 +8,31 @@ const CartSchema = new mongoose.Schema({
   item_id: {
     type: String,
   },
+  item_name: {
+    type: String
+  },
+  item_price: {
+    type: Number
+  },
   qty: {
     type: Number,
   },
-  lens_type: {
-    type: Number,
+  lens: {
+    type: String,
   },
+  width: {
+    type: String
+  },
+  material: {
+    type: String
+  },
+  hinge: {
+    type: String
+  },
+  finish: {
+    type: String
+  }
+
 });
 
 // ! Ito yung collection name, First param

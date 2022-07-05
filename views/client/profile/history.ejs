@@ -4,24 +4,28 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="/assets/css/common.css" />
+        <link href="/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/common.css" />
         <link
           rel="stylesheet"
           href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         />
         <link
-          href="/assets/css/dataTables.bootstrap5.min.css"
+          href="/css/dataTables.bootstrap5.min.css"
           rel="stylesheet"
           type="text/css"
         />
-        <link rel="stylesheet" href="/assets/css/customers.css" />
-        <link rel="stylesheet" href="/assets/css/adminSidebar.css" />
-        <link href="/assets/css/history-appointment.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="/css/customers.css" />
+        <link href="/css/history-appointment.css" rel="stylesheet" type="text/css"/>
+        <link href="\css\bootstrap.min.css" rel="stylesheet" />
+        <link href="\css\common.css" rel="stylesheet" />
+        <link href="\css\client.css" rel="stylesheet" />
 
         <title>Appointment History</title>
     </head>
 <body>
+    <%- include("../../partials/client-navigation-guest.ejs") %>
+
     <h1 class="text-center helvetica heavy-font blue-font mb-5">HISTORY</h1>
 
     <div class="container align-self-center my-3"> <!-- start here --> 
@@ -110,13 +114,15 @@
                         </div>
                       </th>
                       <th scope="col">ID</th>
-                      <th scope="col">Name</th>
+                      <th scope="col">Attendant</th>
                       <th scope="col">Email</th>
                       <th scope="col">Status</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <% if(appointments) { %>
+                        <% for(let appointment of appointments) { %>
                     <tr>
                       <td>
                         <div class="form-check">
@@ -128,49 +134,29 @@
                           />
                         </div>
                       </td>
-                      <td class="center_align">Appointment-1</td>
+                      <td class="center_align"><%= appointment._id %></td>
                       <td class="center_align">
                         <img
-                          src="../../../assets/images/avatar.png"
+                          src="../../../images/avatar.png"
                           class="img-table-list mx-2"
-                        />Juan dela Cruz
+                        /><%= appointment.attendant_name %>
                       </td>
-                      <td class="center_align">testemail@email.com</td>
+                      <td class="center_align"><%= appointment.email %></td>
                       <td>
-                        <span class="badge success helvetica">Completed</span>
-                      </td>
-                      <td>
-                        <button 
-                        type="button"
-                        id="view" 
-                        class="btn view-data data" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#viewAppointment">
-                          View Details
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="form-check">
-                          <input
-                            class="form-check-input check-list"
-                            type="checkbox"
-                            value=""
-                            id="check-one-customer"
-                          />
-                        </div>
-                      </td>
-                      <td class="center_align">Appointment-1</td>
-                      <td class="center_align">
-                        <img
-                          src="../../../assets/images/avatar.png"
-                          class="img-table-list mx-2"
-                        />Juan dela Cruz
-                      </td>
-                      <td class="center_align">testemail1@email.com</td>
-                      <td>
-                        <span class="badge cancelled helvetica">Cancelled</span>
+                        <% switch (appointment.appointment_status) {
+                            case 1 : %>
+                                <span class="badge on-progress helvetica">On Progress</span>
+                            <% break;
+                            
+                            case 2 : %>
+                                <span class="badge on-progress helvetica">Completed</span>
+                            <% break;
+                            
+                            case 3 : %>
+                                <span class="badge on-progress helvetica">Completed</span>
+                            <% break;
+                            
+                        } %>
                       </td>
                       <td>
                         <button
@@ -185,41 +171,7 @@
                         </button>
                       </td>
                     </tr>
-                    <tr>
-                      <td>
-                        <div class="form-check">
-                          <input
-                            class="form-check-input check-list"
-                            type="checkbox"
-                            value=""
-                            id="check-one-customer"
-                          />
-                        </div>
-                      </td>
-                      <td class="center_align">Appointment-1</td>
-                      <td class="center_align">
-                        <img
-                          src="../../../assets/images/avatar.png"
-                          class="img-table-list mx-2"
-                        />Juan dela Cruz
-                      </td>
-                      <td class="center_align">testemail2@email.com</td>
-                      <td>
-                        <span class="badge on-progress helvetica">On Progress</span>
-                      </td>
-                      <td>
-                        <button
-                        type="button"
-                        id="view"
-                        class="btn view-data data"
-                        data-bs-toggle="modal"
-                        data-bs-target="#viewAppointment"
-                        title="View Details"
-                        >
-                        View Details
-                        </button>
-                      </td>
-                    </tr>
+                    <% }} %>
                   </tbody>
                 </table>
                 <br />
@@ -264,7 +216,7 @@
                       <td>09-30-22</td>
                       <td>
                         <img
-                          src="/assets/images/product-img.png"
+                          src="/images/product-img.png"
                           class="purchase-img-table-list mx-2"
                           alt="Product Image"
                         />
@@ -301,7 +253,7 @@
                       <td>09-30-22</td>
                       <td>
                         <img
-                          src="/assets/images/product-img.png"
+                          src="/images/product-img.png"
                           class="purchase-img-table-list mx-2"
                           alt="Product Image"
                         />
@@ -333,7 +285,7 @@
                       <td>09-30-22</td>
                       <td>
                         <img
-                          src="/assets/images/product-img.png"
+                          src="/images/product-img.png"
                           class="purchase-img-table-list mx-2"
                           alt="Product Image"
                         />
@@ -431,7 +383,7 @@
                   id="purchase-img-history"
                 >
                   <img
-                    src="/assets/images/product-img.png"
+                    src="/images/product-img.png"
                     alt="Product Image"
                   />
                 </div>
@@ -811,7 +763,7 @@
           id="purchase-img-history"
         >
           <img
-            src="/assets/images/product-img.png"
+            src="/images/product-img.png"
             alt="Product Image"
           />
         </div>
@@ -864,9 +816,9 @@
   </div>
 
     <!-- jQuery DataTables JS CDN -->
-    <script src="/assets/js/jquery-3.5.1.js"></script>
-    <script src="/assets/js/jquery.dataTables.min.js"></script>
-    <script src="/assets/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap5.min.js"></script>
     <script>
       $(document).ready(function () {
         $("#appointmentTableList").DataTable({
@@ -901,7 +853,7 @@
         jQuery(".dataTable").wrap('<div class="dataTables_scroll" />');
       });
     </script>
-    <script src="/assets/js/attendants.js"></script>
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/attendants.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

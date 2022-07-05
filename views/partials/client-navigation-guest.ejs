@@ -1,19 +1,3 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <link href="\css\bootstrap.min.css" rel="stylesheet" />
-    <link href="\css\common.css" rel="stylesheet" />
-    <link href="\css\user-products.css" rel="stylesheet" />
-    <link href="\css\client.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Guest Navbar</title>
-  </head>
-  <body>
     <nav
       class="navbar container-fluid sticky-top navbar-expand-lg navbar-light bg-light navbar-custom"
     >
@@ -82,34 +66,43 @@
           </div>
         </div>
         <% } else { %>
-          <button
-          type="button"
-          class="btn dropdown-toggle"
-          data-bs-toggle="dropdown"
-          data-bs-display="static"
-          aria-expanded="false"
-        >
-          <img
-            src="\images\avatar.png"
-            alt=""
-            width="30px"
-            class="d-inline-block"
-          />
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
-          <li>
-            <a class="dropdown-item" style="z-index: 10" href="#">Profile</a>
-          </li>
-          <li>
-            <a class="dropdown-item" style="z-index: 10" href="#">Settings</a>
-          </li>
-          <li>
-            <a class="dropdown-item" style="z-index: 10" href="#">History</a>
-          </li>
-          <li>
-            <a class="dropdown-item" style="z-index: 10" href="#">Sign Out</a>
-          </li>
-        </ul>
+          <div class="btn-group account-dropdown">
+            <div class="cart-customer">
+              <a class="nav-link text-dark" href="/cart"
+                ><i class="fas fa-cart-arrow-down"></i>
+                <span class="badge bg-primary rounded-pill">14</span>
+              </a>
+            </div>
+  
+            <button
+              type="button"
+              class="btn dropdown-toggle"
+              data-bs-toggle="dropdown"
+              data-bs-display="static"
+              aria-expanded="false"
+            >
+              <img
+                src="\images\avatar.png"
+                alt=""
+                width="30px"
+                class="d-inline-block"
+              />
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end dropdown">
+              <li>
+                <a class="dropdown-item" style="z-index: 10" href="/profile">Profile</a>
+              </li>
+              <li>
+                <a class="dropdown-item" style="z-index: 10" href="/account-settings">Settings</a>
+              </li>
+              <li>
+                <a class="dropdown-item" style="z-index: 10" href="/account-history">History</a>
+              </li>
+              <li>
+                <a class="dropdown-item" style="z-index: 10" href="/signout">Sign Out</a>
+              </li>
+            </ul>
+          </div>
         <% }} else { %>
           <div class="btn-group account-dropdown">
             <a
@@ -127,11 +120,3 @@
         <% } %>
       </div>
     </nav>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
-    <script src="/scripts/jquery.min.js"></script>
-  </body>
-</html>
