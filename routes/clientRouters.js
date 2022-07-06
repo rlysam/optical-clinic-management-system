@@ -5,6 +5,9 @@ const AppointmentModel = require("../models/Appointment");
 const PurchaseHistoryModel = require("../models/Purchase_History");
 const EyeHistoryModel = require("../models/Eye_History");
 const CartModel = require("../models/Cart");
+const fs = require("fs");
+const path = require("path");
+const pdf = require("pdf-creator-node");
 const mongoose = require('mongoose');
 const router = express.Router();
 
@@ -84,37 +87,184 @@ router.delete("/cart/checkout/:id", async (request, response) => {
   const user = await CustomerModel.findById(id);
   const cart = await CartModel.find({user_id: session.user_id})
 
-  for(let product of cart) {
-    let purchaseHistory = new PurchaseHistoryModel({user_id: product.user_id, 
-                                                    item_id: product.item_id,
-                                                    name: user.first_name + " " + user.middle_name + " " + user.last_name,
-                                                    contact: user.contact,
-                                                    address: user.address,
-                                                    product_name: product.name,
-                                                    lens: product.lens,
-                                                    width: product.width,
-                                                    material: product.material,
-                                                    hinge: product.hinge,
-                                                    finish: product.finish,
-                                                    date: Date.now(),
-                                                    quantity: product.qty,
-                                                    item_img: "product-img.png",
-                                                    price: product.item_price,
-                                                    payment_type: 1,
-                                                    status: 1,
-                                                    date_added: Date.now()});
-
-      await purchaseHistory.save();
+  if(request.body["cart-checks"]) {
+    if(request.body["cart-checks"].length === 1) {
+      for(let product of cart) {
+        
+          if(mongoose.Types.ObjectId(request.body["cart-checks"]).equals(product._id)) {
+            let purchaseHistory = new PurchaseHistoryModel({user_id: product.user_id, 
+              item_id: product.item_id,
+              name: user.first_name + " " + user.middle_name + " " + user.last_name,
+              contact: user.contact,
+              address: user.address,
+              product_name: product.item_name,
+              lens: product.lens,
+              width: product.width,
+              material: product.material,
+              hinge: product.hinge,
+              finish: product.finish,
+              date: Date.now(),
+              quantity: product.qty,
+              item_img: "product-img.png",
+              price: product.item_price,
+              payment_type: 1,
+              status: 1,
+              date_added: Date.now()});
+    
+            await purchaseHistory.save();
+    
+            break;
+          }
+        
+      }
+    
+      // await CartModel.deleteMany({user_id: session.user_id});
+    
+      const html = fs.readFileSync(path.join(__dirname, "../views/template.html"), "utf-8");
+      const filename = "invoice" + Math.random() + "_doc.pdf"; 
+      let array = [];
+      let subtotal = 0;
+      let shippingFee = 50;
+      let total = 50;
+    
+      for(let product of cart) {
+        for(let cartID of request.body["cart-checks"].split(",")) { 
+          if(mongoose.Types.ObjectId(cartID).equals(product._id)) {
+            subtotal += product.item_price * product.qty;
+            total += product.item_price * product.qty;
+            const prod = {
+              name: product.item_name,
+              quantity: product.qty,
+              price: product.item_price,
+              total: product.item_price * product.quantity,
+            }
+            array.push(prod);
+    
+            break;
+          }
+        }
+      }
+    
+      const obj = {
+        prodlist: array,
+        subtotal,
+        shippingFee,
+        total
+      }
+    
+      const document = {
+        html: html,
+        data: {
+            products: obj
+        },
+        path: './docs/' + filename
+      }
+      const options = {
+        formate: 'A3',
+        orientation: 'portrait',
+        border: '2mm',
+      }
+    
+      pdf.create(document, options)
+                .then(res => {
+                  response.download("./docs/" + filename);
+                }).catch(error => {
+                  response.status(500).send(error);
+                });
+    
+      const filepath = 'http://localhost:3000/docs/' + filename;
+    }
+    else {
+      for(let product of cart) {
+        for(let cartID of request.body["cart-checks"].split(",")) {
+          if(mongoose.Types.ObjectId(cartID).equals(product._id)) {
+            let purchaseHistory = new PurchaseHistoryModel({user_id: product.user_id, 
+              item_id: product.item_id,
+              name: user.first_name + " " + user.middle_name + " " + user.last_name,
+              contact: user.contact,
+              address: user.address,
+              product_name: product.item_name,
+              lens: product.lens,
+              width: product.width,
+              material: product.material,
+              hinge: product.hinge,
+              finish: product.finish,
+              date: Date.now(),
+              quantity: product.qty,
+              item_img: "product-img.png",
+              price: product.item_price,
+              payment_type: 1,
+              status: 1,
+              date_added: Date.now()});
+    
+            await purchaseHistory.save();
+    
+            break;
+          }
+        }
+      }
+    
+      // await CartModel.deleteMany({user_id: session.user_id});
+    
+      const html = fs.readFileSync(path.join(__dirname, "../views/template.html"), "utf-8");
+      const filename = "invoice" + Math.random() + "_doc.pdf"; 
+      let array = [];
+      let subtotal = 0;
+      let shippingFee = 50;
+      let total = 50;
+    
+      for(let product of cart) {
+        for(let cartID of request.body["cart-checks"].split(",")) { 
+          if(mongoose.Types.ObjectId(cartID).equals(product._id)) {
+            subtotal += product.item_price * product.qty;
+            total += product.item_price * product.qty;
+            const prod = {
+              name: product.item_name,
+              quantity: product.qty,
+              price: product.item_price,
+              total: product.item_price * product.quantity,
+            }
+            array.push(prod);
+    
+            break;
+          }
+        }
+      }
+    
+      const obj = {
+        prodlist: array,
+        subtotal,
+        shippingFee,
+        total
+      }
+    
+      const document = {
+        html: html,
+        data: {
+            products: obj
+        },
+        path: './docs/' + filename
+      }
+      const options = {
+        formate: 'A3',
+        orientation: 'portrait',
+        border: '2mm',
+      }
+    
+      pdf.create(document, options)
+                .then(res => {
+                  response.download("./docs/" + filename);
+                }).catch(error => {
+                  response.status(500).send(error);
+                });
+    
+      const filepath = 'http://localhost:3000/docs/' + filename;
+    }
   }
-
-  await CartModel.deleteMany({user_id: session.user_id});
-
-  try {
+  else {
     response.redirect("/cart");
-
-  } catch (error) {
-    response.status(500).send(error);
   }
+  
 
 });
 
@@ -209,7 +359,6 @@ router.get("/account-settings", async (request, response) => {
   const id = mongoose.Types.ObjectId(session.user_id)
   const user = await CustomerModel.findById(id);
 
-  console.log(user);
   try {
     response.render("client/profile/account-settings.ejs", {user, session});
   } catch (error) {

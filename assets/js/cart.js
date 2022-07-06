@@ -3,7 +3,7 @@ let total = document.getElementById("total");
 let shippingFee = document.getElementById("shippingFee");
 
 function checkAll() {
-    let checkboxs = document.getElementsByName("cart-check");
+    let checkboxs = document.getElementsByName("cart-check[]");
     let checkAll = document.getElementById("check-all");
    
     if(checkAll.checked == true) {
@@ -21,7 +21,7 @@ function checkAll() {
 }
 
 function updateItemCount() {
-    let checkboxs = document.getElementsByName("cart-check");
+    let checkboxs = document.getElementsByName("cart-check[]");
     let checkCount = 0;
     let price = 0;
     let quantity = 0;
@@ -51,4 +51,29 @@ function updateItemCount() {
         total.textContent = "PHP 0.00";
         subtotal.textContent = "PHP 0.00";
     }
+}
+
+function checkout() {
+    const checkoutForm = document.getElementById("checkout-form");
+
+    const hiddenField = document.createElement("input");
+    let tempValue = [];
+    hiddenField.type = "hidden";
+    hiddenField.name = "cart-checks";
+    hiddenField.value = [];
+    
+    let checkboxs = document.getElementsByName("cart-check[]");
+
+    for(let checkbox of checkboxs) {
+        if(checkbox.checked == true) {
+            tempValue.push(checkbox.value.trim());
+        }
+    }
+
+    console.log(tempValue);
+    hiddenField.value = tempValue;
+
+    checkoutForm.appendChild(hiddenField);
+
+    checkoutForm.submit();
 }

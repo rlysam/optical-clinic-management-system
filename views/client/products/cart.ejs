@@ -40,6 +40,7 @@
             <div class="p-4 container-bg container-radius mb-3">
               <div class="d-flex align-items-center form-check">
                 <input
+                  form="checkout-form"
                   class="form-check-input mb-1"
                   type="checkbox"
                   id="check-all"
@@ -62,9 +63,9 @@
                       <input
                         class="col-1 form-check-input me-auto"
                         type="checkbox"
-                        value="<%= product._id %> "
+                        value="<%=product._id%> "
                         id="cart-check"
-                        name="cart-check"
+                        name="cart-check[]"
                         onclick="updateItemCount()"
                         
                       />
@@ -169,14 +170,15 @@
                   </label>
                 </div>
               </div>
-              <form method="POST" action="/cart/checkout/<%= user._id %>?_method=DELETE">
-                <button
-                id="checkout-btn"
+              <form 
+              id="checkout-form"
+              method="POST" action="/cart/checkout/<%= session.user_id %>?_method=DELETE">
+                <button type="button" onclick="checkout()" id="checkout-btn"
                 class="btn w-100 font-cart heavy-font fs-5 container-radius py-2"
                 >
                 PROCEED TO CHECKOUT
                 </button>
-                </form>
+              </form>
                 
               
             </div>
