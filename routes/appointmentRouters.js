@@ -1,13 +1,15 @@
 const express = require("express");
 const AppointmentModel = require("../models/Appointment");
+const AttendantModel = require("../models/Attendant");
 const router = express.Router();
 
 // READ
 router.get("/appointments", async (request, response) => {
   const appointments = await AppointmentModel.find({});
+  const attendants = await AttendantModel.find({});
 
   try {
-    response.render("admin/appointment/appointment.ejs", {appointments});
+    response.render("admin/appointment/appointment.ejs", {appointments, attendants});
   } catch (error) {
     response.status(500).send(error);
   }
@@ -31,6 +33,16 @@ router.patch("/appointment/:id", async (request, response) => {
     await AppointmentModel.findByIdAndUpdate(request.params.id, request.body);
     await AppointmentModel.save();
     response.send(appointment);
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
+// UPDATE STATUS
+router.patch("/appointment/status/:id", async (request, response) => {
+  try {
+    await AppointmentModel.findByIdAndUpdate(request.params.id, request.body);
+    response.redirect("/api/appointments");
   } catch (error) {
     response.status(500).send(error);
   }

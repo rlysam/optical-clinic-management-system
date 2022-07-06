@@ -141,6 +141,8 @@
             <textarea class="form-control" id="visitReason" rows="5" name="reason_for_visit"></textarea>
           </div>
           <input type="hidden" name="appointment_time" id="appointment_time">
+          <input type="hidden" name="date_added" value="<%= new Date() %>">
+          <input type="hidden" name="email" value="<%= user.email %>">
           <input type="hidden" name="contact" value="<%= user.contact %>">
           <input type="hidden" name="address" value="<%= user.address %>">
           <input type="hidden" name="first_name" value="<%= user.first_name %>">

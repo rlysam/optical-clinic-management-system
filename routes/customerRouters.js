@@ -2,6 +2,7 @@ const express = require("express");
 const CustomerModel = require("../models/Customer");
 const PurchaseHistoryModel = require("../models/Purchase_History");
 const EyeHistoryModel = require("../models/Eye_History");
+const AttendantModel = require("../models/Attendant");
 const router = express.Router();
 
 // READ
@@ -10,6 +11,7 @@ router.get("/customer/:id", async (request, response) => {
   const purchaseHistories = await PurchaseHistoryModel.find({user_id: request.params.id});
   const eyeHistory = await EyeHistoryModel.find({user_id: request.params.id});
   const customers = await CustomerModel.find({});
+  const attendants = await AttendantModel.find({});
 
   try {
     for(let history of eyeHistory) {
@@ -17,7 +19,7 @@ router.get("/customer/:id", async (request, response) => {
       history.customer_name = customer.first_name + " " + customer.middle_name + " " + customer.last_name;
     }
 
-    response.render("admin/customers/view-customer.ejs", {customer, purchaseHistories, eyeHistory, customers});
+    response.render("admin/customers/view-customer.ejs", {customer, purchaseHistories, eyeHistory, customers, attendants});
 
   } catch(error) {
     response.status(500).send(error);
@@ -97,7 +99,7 @@ router.patch("/customer/restore", async (request, response) => {
 router.patch("/customer/:id", async (request, response) => {
   try {
     await CustomerModel.findByIdAndUpdate(request.params.id, request.body);
-    response.redirect("/api/customers/" + request.params.id);
+    response.redirect("/api/customer/" + request.params.id);
 
   } catch (error) {
     response.status(500).send(error);

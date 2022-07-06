@@ -109,8 +109,7 @@ router.patch("/product/restore", async (request, response) => {
 router.patch("/product/:id", async (request, response) => {
   try {
     await ProductModel.findByIdAndUpdate(request.params.id, request.body);
-    await ProductModel.save();
-    response.send(product);
+    response.redirect("/api/product/" + request.params.id);
   } catch (error) {
     response.status(500).send(error);
   }

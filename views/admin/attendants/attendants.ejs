@@ -21,6 +21,7 @@
 
   <body>
     <%- include("../../partials/admin-sidebar.ejs") %>
+    <%- include("../../partials/convertDate.ejs") %>
 
     <section class="home-section">
       <nav>
@@ -354,7 +355,7 @@
                             class="form-check-input check-all"
                             type="checkbox"
                             value=""
-                            id="check-all-attendant"
+                            id="check-all"
                             onclick="checkAll()"
                           />
                           <label
@@ -773,7 +774,7 @@
                           maxlength="11"
                           class="form-control"
                           aria-label="Date Added"
-                          value="<%= attendant.date_added %>"
+                          value="<%= formatDate(attendant.date_added) %>"
                           required
                         />
                       </div>
@@ -864,7 +865,7 @@
                           name="birthday"
                           class="form-control"
                           id="bdayAttendantUpdate"
-                          value="<%= attendant.birthday %>"
+                          value="<%= formatDate(attendant.birthday) %>"
                           required
                         />
                       </div>
