@@ -36,7 +36,7 @@
       <div class="row gx-4 my-4">
         <div class="col-lg-7 col-md-12 pt-3">
           <h3 class="font-cart heavy-font mb-3">Shopping Cart</h3>
-          <form>
+          <div>
             <div class="p-4 container-bg container-radius mb-3">
               <div class="d-flex align-items-center form-check">
                 <input
@@ -65,14 +65,17 @@
                         value="<%= product._id %> "
                         id="cart-check"
                         name="cart-check"
+                        onclick="updateItemCount()"
                         
                       />
                       <div class="col-11 form-check-label" for="item1">
                         <div class="cart-card card position-relative border-0">
-                          <div class="row no-gutters" style="height: 100%">
+                          <form 
+                            method="POST" action="/cart/<%= product._id %>?_method=DELETE"
+                            class="row no-gutters" style="height: 100%">
                             <div class="col-4">
                               <img
-                                src="../../../images/product-img.png"
+                                src="/images/<%= product.image %>"
                                 class="img-fluid h-100"
                                 alt="..."
                               />
@@ -81,12 +84,13 @@
                               <div
                                 class="cart-card-body card-body d-flex flex-column container-bg py-0 pe-0"
                               >
-                                <a
+                                <button
+                                  type="submit"
                                   href="#"
-                                  class="text-decoration-none black-font align-self-end p-0 m-0"
+                                  class="text-decoration-none black-font align-self-end p-0 m-0 border-0"
                                   type="button"
                                   ><i class="fas fa-trash-alt align-self-end"></i
-                                ></a>
+                                ></button>
                                 <div class="mb-auto">
                                   <h5 class="font-cart heavy-font">
                                     <%= product.item_name %>
@@ -111,20 +115,18 @@
                                     </button>
                                   </div>
                                   <div>
-                                    <p class="m-0 heavy-font">PHP <%= product.item_price %></p>
+                                    <p id="price" class="m-0 heavy-font">PHP <%= product.item_price %></p>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </form>
                         </div>
                       </div>
                     </div>
                   </div>
             <% } %>
-
-            
-          </form>
+                </div>
         </div>
 
         <div class="col-lg-5 col-md-12 pt-3">
@@ -133,7 +135,7 @@
               <h4 class="font-cart heavy-font mb-3">Order Summary</h4>
               <div class="p-2 container-radius mb-4 cart-checkout-card-bg">
                 <div class="d-flex">
-                  <label
+                  <label id="item-counter"
                     class="form-check-label mx-2 font-cart heavy-font fs-5 me-auto" 
                   >SUBTOTAL(0) ITEM(S)</label>
                   <label class="form-check-label font-cart heavy-font fs-5" id="subtotal">

@@ -1,13 +1,15 @@
 const express = require("express");
-const PhModel = require("../models/Purchase_History");
+const PurchaseHistoryModel = require("../models/Purchase_History");
+const CustomerModel = require("../models/Customer");
 const router = express.Router();
 
 // READ
-router.get("/purchase_histories", async (request, response) => {
-  const purchase_histories = await PhModel.find({});
+router.get("/orders", async (request, response) => {
+  const orders = await PurchaseHistoryModel.find({});
+  const customer = await CustomerModel.find({});
 
   try {
-    response.send(purchase_histories);
+    response.render("admin/orders/orders.ejs", {orders, customer});
   } catch (error) {
     response.status(500).send(error);
   }
@@ -17,7 +19,7 @@ router.get("/purchase_histories", async (request, response) => {
 router.post("/purchase_history/:id", async (request, response) => {
   request.body.user_id = request.params.id;
   
-  const purchase_history = new PhModel(request.body);
+  const purchase_history = new PurchaseHistoryModel(request.body);
 
   try {
     await purchase_history.save();
@@ -30,8 +32,8 @@ router.post("/purchase_history/:id", async (request, response) => {
 // UPDATE
 router.patch("/purchase_history/:id", async (request, response) => {
   try {
-    await PhModel.findByIdAndUpdate(request.params.id, request.body);
-    await PhModel.save();
+    await PurchaseHistoryModel.findByIdAndUpdate(request.params.id, request.body);
+    await PurchaseHistoryModel.save();
     response.send(purchase_history);
   } catch (error) {
     response.status(500).send(error);
@@ -41,7 +43,7 @@ router.patch("/purchase_history/:id", async (request, response) => {
 // DELETE
 router.delete("/purchase_history/:id", async (request, response) => {
   try {
-    const purchase_history = await PhModel.findByIdAndDelete(request.params.id);
+    const purchase_history = await PurchaseHistoryModel.findByIdAndDelete(request.params.id);
 
     if (!purchase_history) response.status(404).send("No item found");
     response.status(200).send();

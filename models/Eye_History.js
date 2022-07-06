@@ -5,7 +5,7 @@ const EHSchema = new mongoose.Schema({
   user_id: {
     type: String,
   },
-  attendant_id: {
+  attendant_name: {
     type: String,
   },
   previous_grade: {

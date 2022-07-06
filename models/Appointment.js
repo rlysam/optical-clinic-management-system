@@ -69,6 +69,10 @@ const AppointmentSchema = new mongoose.Schema({
     type: Number,
     default: 1
   },
+  is_archived: {
+    type: Boolean,
+    default: false
+  },
   date_added: {
     type: Date,
   },

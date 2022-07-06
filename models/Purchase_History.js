@@ -8,6 +8,33 @@ const PHSchema = new mongoose.Schema({
   item_id: {
     type: String,
   },
+  name: {
+    type: String
+  },
+  product_name: {
+    type: String
+  },
+  lens: {
+    type: String
+  },
+  width: {
+    type: String
+  },
+  material: {
+    type: String
+  },
+  hinge: {
+    type: String
+  },
+  finish: {
+    type: String
+  },
+  contact: {
+    type: String
+  },
+  address: {
+    type: String
+  },
   date: {
     type: Date,
   },
@@ -22,6 +49,7 @@ const PHSchema = new mongoose.Schema({
   },
   payment_type: {
     type: Number,
+    default: 1
   },
   status: {
     type: Number,

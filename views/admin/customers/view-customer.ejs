@@ -418,6 +418,7 @@
                           </tr>
                         </thead>
                         <tbody>
+                          <% if(purchaseHistories) { %>
                           <% for(let purchaseHistory of purchaseHistories) { %>
                             <tr>
                             <td><%= purchaseHistory.quantity %></td>
@@ -432,20 +433,53 @@
                             <td>
                               <span class="text-capitalize text-break"><%= purchaseHistory.name %></span>
                             </td>
-                            <td>Cash on Hand</td>
                             <td>
-                              <button
-                                class="btn status data"
-                                title="Completed Transaction"
-                              >
-                                Completed
-                              </button>
-                              <!-- <button
-                                  class="btn archive-data data"
-                                  title="Cancelled Transaction"
-                                >
+                              <% switch (purchaseHistory.payment_type) {
+                                case 1: %>
+                                  Paypal
+                                <% break;
+                                
+                                case 2: %>
+                                  Cash
+                                <% break;
+                              
+                              } %>
+                              </td>
+                            <td>
+                              <% switch (purchaseHistory.status) {
+                              case 1: %>
+                                <button
+                                  type="button"
+                                  class="btn update-data data button_width"
+                                  aria-controls="paidOrderStatus"
+                                  title="Order Status"
+                                  >
+                                  Paid
+                                </button>
+                              <% break;
+                              
+                              case 2: %>
+                                <button
+                                  type="button"
+                                  class="btn view-data data button_width"
+                                  data-bs-toggle="modal"
+                                  title="Order Status"
+                                  >
+                                  Delivered
+                                </button>
+                              <% break;
+                              
+                              case 3: %>
+                                <button
+                                  type="button"
+                                  class="btn cancelled-data data button_width"
+                                  data-bs-toggle="modal"
+                                  title="Order Status"
+                                  >
                                   Cancelled
-                                </button> -->
+                                </button>
+                              <% break;
+                            } %>
                             </td>
                             <td>
                               <button
@@ -453,14 +487,14 @@
                                 class="btn btn-warning data"
                                 title="View Purchase Details"
                                 data-bs-toggle="offcanvas"
-                                data-bs-target="#purchaseDetails"
+                                data-bs-target="#a<%= purchaseHistory._id %>"
                                 aria-controls="purchaseDetails"
                               >
                                 View Details
                               </button>
                             </td>
                           </tr>
-                          <% } %>
+                          <% }} %>
                         </tbody>
                       </table>
                       <br />
@@ -469,10 +503,12 @@
                 </div>
 
                 <!-- View Purchase Details Offcanvas -->
+                <% if(purchaseHistories) { %>
+                  <% for(let purchaseHistory of purchaseHistories) { %>
                 <div
                   class="offcanvas offcanvas-end"
                   tabindex="-1"
-                  id="purchaseDetails"
+                  id="a<%= purchaseHistory._id %>"
                   aria-labelledby="purchaseDetailsLabel"
                 >
                   <div class="offcanvas-header">
@@ -490,23 +526,21 @@
                     <!-- Name -->
                     <div class="row">
                       <div class="col-lg-4">name:</div>
-                      <div class="col-lg-8 fw-bold">juan dela cruz</div>
+                      <div class="col-lg-8 fw-bold"><%= purchaseHistory.name %></div>
                     </div>
 
                     <!-- Contact No. -->
                     <div class="row">
                       <div class="col-lg-4">contact No:</div>
-                      <div class="col-lg-8 fw-bold">091234566789</div>
+                      <div class="col-lg-8 fw-bold"><%= purchaseHistory.contact %></div>
                     </div>
 
                     <!-- Address -->
                     <div class="row">
-                      <div class="col-lg-4">adress:</div>
+                      <div class="col-lg-4">address:</div>
                       <div class="col-lg-8 fw-bold">
                         <address>
-                          Lorem ipsum, dolor sit amet consectetur adipisicing
-                          elit. Velit neque veniam deleniti quod natus iure quo
-                          dicta dolorum id incidunt!
+                          <%= purchaseHistory.address %>
                         </address>
                       </div>
                     </div>
@@ -515,13 +549,13 @@
                     <!-- Purchased Date -->
                     <div class="row">
                       <div class="col-lg-4">date:</div>
-                      <div class="col-lg-8 fw-bold">09/22/22</div>
+                      <div class="col-lg-8 fw-bold"><%= formatDate(purchaseHistory.date) %></div>
                     </div>
 
                     <!-- Purchase ID -->
                     <div class="row">
                       <div class="col-lg-4">ID:</div>
-                      <div class="col-lg-8 fw-bold">purchase-1</div>
+                      <div class="col-lg-8 fw-bold"><%= purchaseHistory._id %></div>
                     </div>
 
                     <!-- Purchase Photo -->
@@ -532,7 +566,7 @@
                         id="purchase-img-history"
                       >
                         <img
-                          src="/images/product-img.png"
+                          src="/images/<%= purchaseHistory.item_img %>"
                           alt="Product Image"
                         />
                       </div>
@@ -541,48 +575,68 @@
                     <!-- Purchased Product Name -->
                     <div class="row mt-2">
                       <div class="col-lg-4">Product Name:</div>
-                      <div class="col-lg-8 fw-bold">juan dela cruz</div>
+                      <div class="col-lg-8 fw-bold"><%= purchaseHistory.product_name %></div>
                     </div>
 
                     <!-- Purchased Category -->
                     <div class="row">
                       <div class="col-lg-4">category:</div>
                       <div class="col-lg-8 fw-bold">
-                        uv lens, medium, acetate, matte
+                        <%= purchaseHistory.lens + ", " + purchaseHistory.width + ", " + purchaseHistory.material + ", " + purchaseHistory.finish + ", " + purchaseHistory.hinge %>
                       </div>
                     </div>
 
                     <!-- Purchased Number of Items -->
                     <div class="row">
                       <div class="col-lg-4">no. of item:</div>
-                      <div class="col-lg-8 fw-bold">1</div>
+                      <div class="col-lg-8 fw-bold"><%= purchaseHistory.quantity %></div>
                     </div>
 
                     <!-- Purchased Total  -->
                     <div class="row">
                       <div class="col-lg-4">total:</div>
-                      <div class="col-lg-8 fw-bold">Php 3566,22</div>
+                      <div class="col-lg-8 fw-bold">PHP <%= purchaseHistory.price * purchaseHistory.quantity %></div>
                     </div>
 
                     <!-- Purchased Payment  -->
                     <div class="row">
                       <div class="col-lg-4">Payment:</div>
-                      <div class="col-lg-8 fw-bold">Paypal</div>
-                    </div>
-
-                    <!-- Purchased Reference  -->
-                    <div class="row">
-                      <div class="col-lg-4">Reference:</div>
-                      <div class="col-lg-8 fw-bold">24234324242</div>
+                      <div class="col-lg-8 fw-bold">
+                        <% switch (purchaseHistory.payment_type) {
+                          case 1: %>
+                            Paypal
+                          <% break;
+                          
+                          case 2: %>
+                            Cash
+                          <% break;
+                          
+                        } %>
+                      </div>
                     </div>
 
                     <!-- Purchased Status  -->
                     <div class="row py-2 mb-2">
                       <div class="col-lg-4">Status:</div>
-                      <div class="col-lg-8 fw-bold">success</div>
+                      <div class="col-lg-8 fw-bold">
+                        <% switch (purchaseHistory.status) {
+                              case 1: %>
+                                Paid
+                              <% break;
+                              
+                              case 2: %>
+                                Delivered
+                              <% break;
+                              
+                              case 3: %>
+                                Cancelled
+                              <% break;
+                            } %>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <% }} %>
 
                 <!-- Eye History Tab -->
                 <div
@@ -657,7 +711,7 @@
                 class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
               >
                 <form 
-                  method="POST" action="/api/eye_history/<%= customer.id %>"
+                  method="POST" action="/api/eye_history/<%= customer._id %>"
                   class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="newRecordLabel">
@@ -719,11 +773,11 @@
                       class="form-select"
                       aria-label="Walk in or Registered"
                       id="attendant"
-                      name="attendant_id"
+                      name="attendant_name"
                       required
                     >
                       <% for(let attendant of attendants) { %>
-                        <option value="<%= attendant._id %>"><%= attendant.first_name + " " + attendant.middle_name + " " + attendant.last_name%></option>
+                        <option value="<%= attendant.first_name + " " + attendant.middle_name + " " + attendant.last_name%>"><%= attendant.first_name + " " + attendant.middle_name + " " + attendant.last_name%></option>
                       <% } %>
                     </select>
                     <input type="hidden" name="user_id" value="<%= customer._id %>"/>

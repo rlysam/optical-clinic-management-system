@@ -36,6 +36,7 @@ router.get("/products", async (request, response) => {
 router.get("/product/:id", async (request, response) => {
   const product = await ProductModel.findById(request.params.id);
   const {session} = request;
+  request.session.cartqty = await CartModel.countDocuments({user_id: session.user_id});
   const id = mongoose.Types.ObjectId(session.user_id)
   const user = await CustomerModel.findById(id);
 
@@ -49,6 +50,7 @@ router.get("/product/:id", async (request, response) => {
 
 router.get("/cart", async (request, response) => {
   const {session} = request;
+  request.session.cartqty = await CartModel.countDocuments({user_id: session.user_id});
   const cart = await CartModel.find({user_id: session.user_id});
   const id = mongoose.Types.ObjectId(session.user_id)
   const user = await CustomerModel.findById(id);
@@ -82,28 +84,45 @@ router.delete("/cart/checkout/:id", async (request, response) => {
   const user = await CustomerModel.findById(id);
   const cart = await CartModel.find({user_id: session.user_id})
 
-  // for(let product of cart) {
-  //   let purchaseHistory = new PurchaseHistoryModel({user_id: product.user_id, 
-  //                                                   item_id: product.item_id,
-  //                                                   date: Date.now(),
-  //                                                   quantity: product.qty,
-  //                                                   item_img: "product-img.png",
-  //                                                   price: product.item_price,
-  //                                                   payment_type: 1,
-  //                                                   status: 1,
-  //                                                   date_added: Date.now()});
+  for(let product of cart) {
+    let purchaseHistory = new PurchaseHistoryModel({user_id: product.user_id, 
+                                                    item_id: product.item_id,
+                                                    name: user.first_name + " " + user.middle_name + " " + user.last_name,
+                                                    contact: user.contact,
+                                                    address: user.address,
+                                                    product_name: product.name,
+                                                    lens: product.lens,
+                                                    width: product.width,
+                                                    material: product.material,
+                                                    hinge: product.hinge,
+                                                    finish: product.finish,
+                                                    date: Date.now(),
+                                                    quantity: product.qty,
+                                                    item_img: "product-img.png",
+                                                    price: product.item_price,
+                                                    payment_type: 1,
+                                                    status: 1,
+                                                    date_added: Date.now()});
 
-  //     await purchaseHistory.save();
-  // }
+      await purchaseHistory.save();
+  }
 
-  // await CartModel.deleteMany({user_id: session.user_id});
-
-
+  await CartModel.deleteMany({user_id: session.user_id});
 
   try {
-  response.send("WORK ON CHECKOUT");
+    response.redirect("/cart");
 
-  // response.send(request.body);
+  } catch (error) {
+    response.status(500).send(error);
+  }
+
+});
+
+router.delete("/cart/:id", async (request, response) => {
+  await CartModel.deleteOne({_id: request.params.id});
+
+  try {
+    response.redirect("/cart");
 
   } catch (error) {
     response.status(500).send(error);
@@ -232,6 +251,7 @@ router.post("/signin", async (request, response) => {
     if(customer) {
       request.session.user_id = customer._id;
       request.session.loggedin = true;
+      request.session.cartqty = await CartModel.countDocuments({user_id: customer._id});
       response.redirect("/home");
     }
     else {

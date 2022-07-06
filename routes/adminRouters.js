@@ -13,6 +13,17 @@ router.get("/admins", async (request, response) => {
   }
 });
 
+// READ
+router.get("/change-password", async (request, response) => {
+  const admins = await AdminModel.find({is_admin: true});
+
+  try {
+    response.render("admin/admin-change-password.ejs", {admins});
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
 // CREATE
 router.post("/admin", async (request, response) => {
   const admin = new AdminModel(request.body);

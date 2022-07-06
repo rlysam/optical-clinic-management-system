@@ -5,11 +5,22 @@ const router = express.Router();
 
 // READ
 router.get("/appointments", async (request, response) => {
-  const appointments = await AppointmentModel.find({});
+  const appointments = await AppointmentModel.find({is_archived: false});
   const attendants = await AttendantModel.find({});
 
   try {
     response.render("admin/appointment/appointment.ejs", {appointments, attendants});
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
+router.get("/appointments/archives", async (request, response) => {
+  const appointments = await AppointmentModel.find({is_archived: true});
+  const attendants = await AttendantModel.find({});
+
+  try {
+    response.render("admin/appointment/archives.ejs", {appointments, attendants});
   } catch (error) {
     response.status(500).send(error);
   }
@@ -28,6 +39,44 @@ router.post("/appointment", async (request, response) => {
 });
 
 // UPDATE
+// BATCH ARCHIVE
+router.patch("/appointment/archive", async (request, response) => {
+  const archives = request.body;
+
+  if(archives["archive-check"]) {
+    for(let archive of archives["archive-check"]) {
+      if(archive.length === 1) {
+        await AppointmentModel.findByIdAndUpdate(archives["archive-check"], {is_archived: true});
+        break;
+      }
+      else {
+        await AppointmentModel.findByIdAndUpdate(archive, {is_archived: true});
+      }
+    }
+  }
+
+  response.redirect("/api/appointments");
+});
+
+// BATCH RESTORE
+router.patch("/appointment/restore", async (request, response) => {
+  const restores = request.body;
+
+  if(restores["archive-check"]) {
+    for(let restore of restores["archive-check"]) {
+      if(restore.length === 1) {
+        await AppointmentModel.findByIdAndUpdate(restores["archive-check"], {is_archived: false});
+        break;
+      }
+      else {
+        await AppointmentModel.findByIdAndUpdate(restore, {is_archived: false});
+      }
+    }
+  }
+
+  response.redirect("/api/appointments/archives");
+});
+
 router.patch("/appointment/:id", async (request, response) => {
   try {
     await AppointmentModel.findByIdAndUpdate(request.params.id, request.body);

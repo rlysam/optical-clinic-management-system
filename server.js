@@ -18,6 +18,7 @@ const itemFilterRouters = require(path.join(__dirname, "/routes/itemFilterRouter
 const filterRouters = require(path.join(__dirname, "/routes/filterRouters.js"));
 const adminRouters = require(path.join(__dirname, "/routes/adminRouters.js"));
 const clientRouters = require(path.join(__dirname, "/routes/clientRouters.js"));
+const dashboardRouters = require(path.join(__dirname, "/routes/dashboardRouters.js"));
 
 
 
@@ -49,6 +50,7 @@ app.use(session({
 // ex. /sample+"/router_method_name"
 // * do this after testing w frontend
 // app.use("/sample",userRouter);
+app.use("/api/", dashboardRouters);
 app.use("/api/", attendantRouters);
 app.use("/api/", productRouters);
 app.use("/api/", customerRouters);

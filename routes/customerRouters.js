@@ -14,11 +14,6 @@ router.get("/customer/:id", async (request, response) => {
   const attendants = await AttendantModel.find({});
 
   try {
-    for(let history of eyeHistory) {
-      let customer = await CustomerModel.findById(history.customer_id);
-      history.customer_name = customer.first_name + " " + customer.middle_name + " " + customer.last_name;
-    }
-
     response.render("admin/customers/view-customer.ejs", {customer, purchaseHistories, eyeHistory, customers, attendants});
 
   } catch(error) {
