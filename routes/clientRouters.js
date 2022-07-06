@@ -53,7 +53,6 @@ router.get("/cart", async (request, response) => {
   const id = mongoose.Types.ObjectId(session.user_id)
   const user = await CustomerModel.findById(id);
 
-  console.log(cart);
   try {
     response.render("client/products/cart.ejs", {user, session, cart} );
   } catch (error) {
@@ -71,6 +70,41 @@ router.post("/product/add-to-cart/:id", async (request, response) => {
   try {
     await cart.save();
     response.redirect("/cart");
+  } catch (error) {
+    response.status(500).send(error);
+  }
+
+});
+
+router.delete("/cart/checkout/:id", async (request, response) => {
+  const {session} = request;
+  const id = mongoose.Types.ObjectId(session.user_id)
+  const user = await CustomerModel.findById(id);
+  const cart = await CartModel.find({user_id: session.user_id})
+
+  // for(let product of cart) {
+  //   let purchaseHistory = new PurchaseHistoryModel({user_id: product.user_id, 
+  //                                                   item_id: product.item_id,
+  //                                                   date: Date.now(),
+  //                                                   quantity: product.qty,
+  //                                                   item_img: "product-img.png",
+  //                                                   price: product.item_price,
+  //                                                   payment_type: 1,
+  //                                                   status: 1,
+  //                                                   date_added: Date.now()});
+
+  //     await purchaseHistory.save();
+  // }
+
+  // await CartModel.deleteMany({user_id: session.user_id});
+
+
+
+  try {
+  response.send("WORK ON CHECKOUT");
+
+  // response.send(request.body);
+
   } catch (error) {
     response.status(500).send(error);
   }
