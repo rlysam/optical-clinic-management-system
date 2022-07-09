@@ -89,6 +89,13 @@ router.patch("/appointment/:id", async (request, response) => {
 
 // UPDATE STATUS
 router.patch("/appointment/status/:id", async (request, response) => {
+	 if (request.body.status == 2){
+// TODO NODEMAILER
+// request.body.
+		let email = request.body.email;
+
+// TODO yung sa after mag press si admin ng CONFIRM
+	 }
   try {
     await AppointmentModel.findByIdAndUpdate(request.params.id, request.body);
     response.redirect("/api/appointments");
