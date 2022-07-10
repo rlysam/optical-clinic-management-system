@@ -47,6 +47,7 @@ const AppointmentSchema = new mongoose.Schema({
 	required: true
   },
   email: {
+	// ! email ni CUSTOMER
     type: String,
     default: "Unassigned"
   },
@@ -67,7 +68,8 @@ const AppointmentSchema = new mongoose.Schema({
   },
   appointment_status: {
     type: Number,
-    default: 1
+    default: 1 
+	// 1 pending, 2 confirmed, 3 cancelled
   },
   is_archived: {
     type: Boolean,
