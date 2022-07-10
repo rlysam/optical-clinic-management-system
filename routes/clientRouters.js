@@ -5,6 +5,7 @@ const AppointmentModel = require("../models/Appointment");
 const PurchaseHistoryModel = require("../models/Purchase_History");
 const EyeHistoryModel = require("../models/Eye_History");
 const CartModel = require("../models/Cart");
+const FilterModel = require("../models/Filter");
 const fs = require("fs");
 const path = require("path");
 const pdf = require("pdf-creator-node");
@@ -23,13 +24,27 @@ router.get("/home", async (request, response) => {
 });
 
 router.get("/products", async (request, response) => {
-  const products = await ProductModel.find({});
+  // const products = await ProductModel.find({
+  //   "lens": request.query.lens,
+  //   "width": request.query.width,
+  //   "material": request.query.material,
+  //   "hinge": request.query.hinge,
+  //   "finish": request.query.finish});
+
+   const products = await ProductModel.find({
+    "lens": (request.query.lens)? request.query.lens: {$ne:null},
+    "width": (request.query.width)? request.query.width: {$ne:null},
+    "material": (request.query.material)? request.query.material: {$ne:null},
+    "hinge": (request.query.hinge)? request.query.hinge: {$ne:null},
+    "finish": (request.query.finish)? request.query.finish: {$ne:null}
+   });
   const {session} = request;
   const id = mongoose.Types.ObjectId(session.user_id)
   const user = await CustomerModel.findById(id);
+  const filters = await FilterModel.find({});
 
   try {
-    response.render("client/products/all-products.ejs", {products, session, user});
+    response.render("client/products/all-products.ejs", {products, filters, session, user});
   } catch (error) {
     response.status(500).send(error);
   }

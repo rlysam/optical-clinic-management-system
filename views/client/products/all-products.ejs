@@ -22,7 +22,7 @@
     <%- include("../../partials/client-navigation-guest.ejs") %>
     
     <div class="head">
-      <form action="#" class="search-wrapper" >
+      <!-- <form action="#" class="search-wrapper" >
         <div class="d-flex justify-content-center search-box">
           <input
             type="search"
@@ -35,21 +35,21 @@
             <title>Search</title>
           </button>
         </div>
-      </form>
+      </form> -->
       <!-- <p class="container text-center">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ex labore dignissimos dolorem perferendis provident, cumque quaerat tenetur eius doloribus.
       </p> -->
     </div>
-    <form action="">
       <div class="container">
         <div class="filter-head d-flex justify-content-between">
-          <div>
-            <select class="form-select" aria-label="Sortby" id="sort">
-              <option selected>Popular</option>
-              <option>Newest</option>
-              <option>Oldest</option>
-            </select>
-          </div>
+          <button
+            type="button"
+            class="btn btn-secondary filter-button"
+            onclick="submitFilter()"
+          >
+          <i class="fas fa-search"></i>
+            <span class="px-1">Search</span>
+          </button>
           <button
             type="reset"
             class="btn btn-secondary filter-button"
@@ -61,6 +61,7 @@
           </button>
         </div>
 
+        <form method="GET" action="/products">
         <div class="grid-container" id="category-filters">
           <div class="grid-filter-1">
             <label class="form-label" for="product-width">Lens Type: </label>
@@ -68,10 +69,14 @@
               class="form-select"
               aria-label="ProductLensType"
               id="product-lens"
+              name="lens"
             >
               <option selected readonly disabled>Select Type</option>
-              <option>Normal</option>
-              <option>UV Lens</option>
+              <% for(let filter of filters) { %>
+                <% if(filter.type == "lens") { %>
+                  <option value="<%= filter.name %>"><%= filter.name %></option>
+                <% } %>
+              <% } %>
             </select>
           </div>
           <div class="grid-filter-2">
@@ -80,12 +85,14 @@
               class="form-select"
               aria-label="ProductWidth"
               id="product-width"
+              name="width"
             >
               <option selected readonly disabled>Select Width</option>
-              <option>Narrow</option>
-              <option>Wide</option>
-              <option>Medium</option>
-              <option>Extrawide</option>
+              <% for(let filter of filters) { %>
+                <% if(filter.type == "width") { %>
+                  <option value="<%= filter.name %>"><%= filter.name %></option>
+                <% } %>
+              <% } %>
             </select>
           </div>
           <div class="grid-filter-3">
@@ -94,12 +101,14 @@
               class="form-select"
               aria-label="ProductMaterial"
               id="product-material"
+              name="material"
             >
               <option selected readonly disabled>Select Material</option>
-              <option>Metal</option>
-              <option>Mixed</option>
-              <option>Polycarbonate</option>
-              <option>Recycled Polyester</option>
+              <% for(let filter of filters) { %>
+                <% if(filter.type == "material") { %>
+                  <option value="<%= filter.name %>"><%= filter.name %></option>
+                <% } %>
+              <% } %>
             </select>
           </div>
           <div class="grid-filter-4">
@@ -108,11 +117,14 @@
               class="form-select"
               aria-label="ProductWidth"
               id="product-hinge"
+              name="hinge"
             >
               <option selected readonly disabled>Select Hinge</option>
-              <option>Standard</option>
-              <option>Spring</option>
-              <option>Hingless</option>
+              <% for(let filter of filters) { %>
+                <% if(filter.type == "hinge") { %>
+                  <option value="<%= filter.name %>"><%= filter.name %></option>
+                <% } %>
+              <% } %>
             </select>
           </div>
           <div class="grid-filter-5">
@@ -121,13 +133,18 @@
               class="form-select"
               aria-label="Product Material"
               id="product-finish"
+              name="finish"
             >
               <option selected readonly disabled>Select finish</option>
-              <option>Matte</option>
-              <option>Shiny</option>
+              <% for(let filter of filters) { %>
+                <% if(filter.type == "finish") { %>
+                  <option value="<%= filter.name %>"><%= filter.name %></option>
+                <% } %>
+              <% } %>
             </select>
           </div>
         </div>
+      </form>
 
         <!-- Product List -->
         <div class="wrapper">
@@ -139,7 +156,7 @@
               <div class="card">
                 <a href="/product/<%= product._id %>">
                   <img
-                    src="/images/product-img.png"
+                    src="/images/<%= product.image %>"
                     class="card-img-top"
                     alt="..."
                   />
@@ -188,10 +205,10 @@
         </nav>
         <br /><br />
       </div>
-    </form>
 
     <%- include("../../partials/client-footer.ejs") %>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/all-products.js"></script>
     
     <script>
       var filterButton = document.getElementById("filter-by-button");

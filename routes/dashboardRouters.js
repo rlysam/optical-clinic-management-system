@@ -21,6 +21,7 @@ router.get("/dashboard", async (request, response) => {
     }
     
     let top_seller_filtered = [];
+
     for(let product of top_seller) {
         top_seller_filtered.push(await ProductModel.findOne({"_id": product}))
     }
