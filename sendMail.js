@@ -24,9 +24,8 @@ let mailOptions = {
     from: process.env.EMAIL,
     to: customerEmail, 
     subject: `Appointment Details for ${aptDetails}`,
-    text: `Appointment Details:\n\n${aptDetails}`
+    text: `Dear ${aptDetails.first_name} ${aptDetails.last_name} your schedule is on ${aptDetails.appointment_date} at ${aptDetails.appointment_time}. \n\nThank you\nNEW VISION TEAM`
 };
-
   return mailOptions;   // The function returns the product of p1 and p2
 }
 

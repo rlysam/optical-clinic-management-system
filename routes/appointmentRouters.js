@@ -3,6 +3,9 @@ const AppointmentModel = require("../models/Appointment");
 const AttendantModel = require("../models/Attendant");
 const router = express.Router();
 
+// ! Emailing Customer
+const sendMail = require('../sendMail');
+
 // READ
 router.get("/appointments", async (request, response) => {
   const appointments = await AppointmentModel.find({is_archived: false});
@@ -92,9 +95,17 @@ router.patch("/appointment/status/:id", async (request, response) => {
 	 if (request.body.status == 2){
 // TODO NODEMAILER
 // request.body.
-		let email = request.body.email;
+		let customerEmail = request.body.email;
+		// magiging laman ng details, time date, name
+		let details = request.body;
 
-// TODO yung sa after mag press si admin ng CONFIRM
+	sendMail.transporter.sendMail(
+	sendMail.myFunction(customerEmail, details),
+	(err, data) => {
+		if (err) { return log('Error occurs', err); }
+		return log('Email sent!!!');
+});
+
 	 }
   try {
     await AppointmentModel.findByIdAndUpdate(request.params.id, request.body);

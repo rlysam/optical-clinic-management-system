@@ -1,5 +1,6 @@
 // TODO sending mail partial codes, sam  | notes prioritize email cofirmation, before user can login, then change pass, then go back here
 // how to use sendmail
+// sample demonstration, "$ node test.js"
 const sendMail = require('./sendMail')
 
 let email = 'sam17.bello@ymail.com';
