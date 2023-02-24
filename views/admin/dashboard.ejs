@@ -110,7 +110,7 @@
             </div>
           </div>
           <div class="top-sales box">
-            <div class="title py-2">Top Seling Product</div>
+            <div class="title py-2">Top Selling Product</div>
             <table class="table table-responsive table-hover">
               <thead>
                 <tr>
@@ -129,11 +129,11 @@
                   <th scope="row"><%= index += 1 %></th>
                   <td>
                     <img
-                      src="/images/product-img.png"
+                      src="/images/<%= product.image %>"
                       alt="Top Product"
                     />
                   </td>
-                  <td><%= product.product_name %></td>
+                  <td><%= product.name %></td>
                   <td>Php <%= product.price %></td>
                 </tr>
                 <% }}} %>

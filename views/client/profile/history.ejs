@@ -25,6 +25,7 @@
     </head>
 <body>
     <%- include("../../partials/client-navigation-guest.ejs") %>
+    <%- include("../../partials/convertDate.ejs") %>
 
     <h1 class="text-center helvetica heavy-font blue-font mb-5">HISTORY</h1>
 
@@ -164,7 +165,7 @@
                         id="view"
                         class="btn view-data data"
                         data-bs-toggle="modal"
-                        data-bs-target="#viewAppointment"
+                        data-bs-target="#aaa<%= appointment._id %>"
                         title="View Details"
                         >
                         View Details
@@ -211,25 +212,49 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <% if(purchaseHistory) { %>
+                        <% let index = 0; %>
+                        <% for(let history of purchaseHistory) { %>
                     <tr>
-                      <td>1</td>
-                      <td>09-30-22</td>
+                      <td><%= ++index %></td>
+                      <td><%= formatDate(history.date) %></td>
                       <td>
                         <img
-                          src="/images/product-img.png"
+                          src="/images/<%= history.item_img %>"
                           class="purchase-img-table-list mx-2"
                           alt="Product Image"
                         />
                       </td>
                       <td>
                         <span class="text-capitalize text-break"
-                          >Lorem ipsum dolor sit amet consectetur,
-                          adipisicing elit. Impedit error rerum.</span
-                        >
-                      </td>
-                      <td>Cash on Hand</td>
+                          ><%= history.product_name %>
                       <td>
-                        <span class="badge success helvetica">Completed</span>
+                        <% switch (history.payment_type) {
+                          case 1: %>
+                            Paypal
+                          <% break;
+                          
+                          case 2: %>
+                            Cash
+                          <% break;
+                          
+                          } %>  
+                      </td>
+                      <td>
+                        <% switch (history.status) {
+                              case 1: %>
+                                <span class="badge on-progress helvetica">On Progress</span>
+                              <% break;
+                              
+                              case 2: %>
+                                <span class="badge success helvetica">Completed</span>
+                              <% break;
+                              
+                              case 3: %>
+                                <span class="badge cancelled helvetica">Cancelled</span>
+                              <% break;
+                        } %>
+
                         <!-- <button
                             class="btn archive-data data"
                             title="Cancelled Transaction"
@@ -243,75 +268,12 @@
                         id="view" 
                         class="btn view-data data" 
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#viewPurchaseHistory">
+                        data-bs-target="#aa<%= history._id %>">
                           View Details
                         </button>
                       </td>
                     </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>09-30-22</td>
-                      <td>
-                        <img
-                          src="/images/product-img.png"
-                          class="purchase-img-table-list mx-2"
-                          alt="Product Image"
-                        />
-                      </td>
-                      <td>
-                        <span class="text-capitalize text-break"
-                          >test2</span
-                        >
-                      </td>
-                      <td>Paypal</td>
-                      <td>
-                        <span class="badge cancelled helvetica">Cancelled</span>
-                      </td>
-                      <td>
-                        <button
-                        type="button"
-                        id="view"
-                        class="btn view-data data"
-                        data-bs-toggle="modal"
-                        data-bs-target="#viewAppointment"
-                        title="View Details"
-                        >
-                        View Details
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>09-30-22</td>
-                      <td>
-                        <img
-                          src="/images/product-img.png"
-                          class="purchase-img-table-list mx-2"
-                          alt="Product Image"
-                        />
-                      </td>
-                      <td>
-                        <span class="text-capitalize text-break"
-                          >test2</span
-                        >
-                      </td>
-                      <td>Paypal</td>
-                      <td>
-                        <span class="badge on-progress helvetica">On Progress</span>
-                      </td>
-                      <td>
-                        <button
-                        type="button"
-                        id="view"
-                        class="btn view-data data"
-                        data-bs-toggle="modal"
-                        data-bs-target="#viewAppointment"
-                        title="View Details"
-                        >
-                        View Details
-                        </button>
-                      </td>
-                    </tr>
+                    <% }} %>
                   </tbody>
                 </table>
                 <br />
@@ -320,10 +282,12 @@
           </div>
 
           <!-- View Purchase Details Offcanvas -->
+          <% if(purchaseHistory) { %>
+            <% for(let history of purchaseHistory) { %>
           <div
             class="offcanvas offcanvas-end"
             tabindex="-1"
-            id="purchaseDetails"
+            id="aa<%= history._id %>"
             aria-labelledby="purchaseDetailsLabel"
           >
             <div class="offcanvas-header">
@@ -341,13 +305,13 @@
               <!-- Name -->
               <div class="row">
                 <div class="col-lg-4">name:</div>
-                <div class="col-lg-8 fw-bold">juan dela cruz</div>
+                <div class="col-lg-8 fw-bold"><%= history.name %></div>
               </div>
 
               <!-- Contact No. -->
               <div class="row">
                 <div class="col-lg-4">contact No:</div>
-                <div class="col-lg-8 fw-bold">091234566789</div>
+                <div class="col-lg-8 fw-bold"><%= history.contact %></div>
               </div>
 
               <!-- Address -->
@@ -355,9 +319,7 @@
                 <div class="col-lg-4">adress:</div>
                 <div class="col-lg-8 fw-bold">
                   <address>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing
-                    elit. Velit neque veniam deleniti quod natus iure quo
-                    dicta dolorum id incidunt!
+                    <%= history.address %>
                   </address>
                 </div>
               </div>
@@ -366,13 +328,13 @@
               <!-- Purchased Date -->
               <div class="row">
                 <div class="col-lg-4">date:</div>
-                <div class="col-lg-8 fw-bold">09/22/22</div>
+                <div class="col-lg-8 fw-bold"><%= formatDate(history.date)%></div>
               </div>
 
               <!-- Purchase ID -->
               <div class="row">
                 <div class="col-lg-4">ID:</div>
-                <div class="col-lg-8 fw-bold">purchase-1</div>
+                <div class="col-lg-8 fw-bold"><%= history._id %></div>
               </div>
 
               <!-- Purchase Photo -->
@@ -383,7 +345,7 @@
                   id="purchase-img-history"
                 >
                   <img
-                    src="/images/product-img.png"
+                    src="/images/<%= history.item_img %>"
                     alt="Product Image"
                   />
                 </div>
@@ -392,48 +354,68 @@
               <!-- Purchased Product Name -->
               <div class="row mt-2">
                 <div class="col-lg-4">Product Name:</div>
-                <div class="col-lg-8 fw-bold">juan dela cruz</div>
+                <div class="col-lg-8 fw-bold"><%= history.product_name %></div>
               </div>
 
               <!-- Purchased Category -->
               <div class="row">
                 <div class="col-lg-4">category:</div>
                 <div class="col-lg-8 fw-bold">
-                  uv lens, medium, acetate, matte
+                  <%= history.lens %>, <%= history.width%>, <%= history.material %>, <%= history.hinge %>, <%= history.finish %>
                 </div>
               </div>
 
               <!-- Purchased Number of Items -->
               <div class="row">
                 <div class="col-lg-4">no. of item:</div>
-                <div class="col-lg-8 fw-bold">1</div>
+                <div class="col-lg-8 fw-bold"><%= history.quantity %></div>
               </div>
 
               <!-- Purchased Total  -->
               <div class="row">
                 <div class="col-lg-4">total:</div>
-                <div class="col-lg-8 fw-bold">Php 3566,22</div>
+                <div class="col-lg-8 fw-bold">Php <%= history.price * history.quantity %></div>
               </div>
 
               <!-- Purchased Payment  -->
               <div class="row">
                 <div class="col-lg-4">Payment:</div>
-                <div class="col-lg-8 fw-bold">Paypal</div>
-              </div>
-
-              <!-- Purchased Reference  -->
-              <div class="row">
-                <div class="col-lg-4">Reference:</div>
-                <div class="col-lg-8 fw-bold">24234324242</div>
+                <div class="col-lg-8 fw-bold">
+                  <% switch (history.payment_type) {
+                          case 1: %>
+                            Paypal
+                          <% break;
+                          
+                          case 2: %>
+                            Cash
+                          <% break;
+                          
+                          } %>    
+                </div>
               </div>
 
               <!-- Purchased Status  -->
               <div class="row py-2 mb-2">
                 <div class="col-lg-4">Status:</div>
-                <div class="col-lg-8 fw-bold">success</div>
+                <div class="col-lg-8 fw-bold">
+                  <% switch (history.status) {
+                              case 1: %>
+                                <span class="badge on-progress helvetica">On Progress</span>
+                              <% break;
+                              
+                              case 2: %>
+                                <span class="badge success helvetica">Completed</span>
+                              <% break;
+                              
+                              case 3: %>
+                                <span class="badge cancelled helvetica">Cancelled</span>
+                              <% break;
+                        } %>
+                </div>
               </div>
             </div>
           </div>
+          <% }} %>
 
           <!-- Eye History Tab -->
           <div
@@ -464,11 +446,16 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td>1</td>
-                      <td>09-30-22</td>
-                      <td>20/40</td>
-                      <td>50/30</td>
-                      <td>Dr. Lida Cruz</td>
+                      <% if(eyeHistory) { %>
+                        <% let index = 0; %>
+                        <% for(let history of eyeHistory) { %> 
+                          <td><%= ++index %></td>
+                          <td><%= formatDate(history.date_added) %></td>
+                          <td><%= history.previous_grade %></td>
+                          <td><%= history.current_grade %></td>
+                          <td>Dr. <%= history.attendant_name %></td>
+                      <% }} %>
+                      
                     </tr>
                   </tbody>
                 </table>
@@ -480,9 +467,11 @@
     </div>
     
     <!-- view appointment modal -->
+    <% if(appointments) { %>
+      <% for(let appointment of appointments) {%>
     <div
           class="modal fade"
-          id="viewAppointment"
+          id="aaa<%= appointment._id %>"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabindex="-1"
@@ -526,7 +515,7 @@
                         maxlength="11"
                         class="form-control"
                         aria-label="Appointment ID"
-                        placeholder="Appointment ID"
+                        value="<%= appointment._id %>"
                         required
                         readonly
                       />
@@ -545,6 +534,7 @@
                         maxlength="11"
                         class="form-control"
                         aria-label="Date Added"
+                        value="<%= formatDate(appointment.date_added) %>"
                         readonly
                       />
                     </div>
@@ -561,7 +551,7 @@
                     name="reasonVisit"
                     class="form-control"
                     id="reasonAppointmentView"
-                    value="Lorem Ipsum lorem ipsum"
+                    value="<%= appointment.reason_for_visit %>"
                     required
                     readonly
                   />
@@ -581,7 +571,7 @@
                         name="email"
                         class="form-control"
                         id="emailAppointmentView"
-                        placeholder="testemail@email.com"
+                        value="<%= appointment.email %>"
                         readonly
                       />
                     </div>
@@ -603,7 +593,7 @@
                         aria-label="Contact Number"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
                         title="Numbers only"
-                        placeholder="091234567989"
+                        value="<%= appointment.contact %>"
                         readonly
                       />
                     </div>
@@ -616,10 +606,11 @@
                         >Date of Last Eye Exam:
                       </label>
                       <input
-                        type="date"
+                        type="text"
                         name="bday"
                         class="form-control"
                         id="lastExamAppointmentView"
+                        value="<%= formatDate(appointment.last_eye_exam) %>"
                         readonly
                       />
                     </div>
@@ -632,13 +623,13 @@
                         >Last Eye Grade:
                       </label>
                       <input
-                        type="number"
+                        type="text"
                         name="lastGrade"
                         id="lastGradeAppointmentView"
                         class="form-control"
                         aria-label="Last Eye Grade"
                         title="Numbers only"
-                        placeholder="Last eye grade"
+                        value="<%= appointment.last_eye_grade %>"
                         readonly
                       />
                     </div>
@@ -660,8 +651,7 @@
                               name="fvisit"
                               value="yes"
                               id="yesView"
-                              required
-                              readonly
+                              checked
                               />
                               <label class="form-check-label" for="fvisit">
                                 Yes
@@ -698,7 +688,7 @@
             </div>
           </div>
         </div>
-
+        <% }} %>
     <!-- View Purchase Details Offcanvas -->
     <div
     class="offcanvas offcanvas-end"

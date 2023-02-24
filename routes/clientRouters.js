@@ -105,7 +105,7 @@ router.delete("/cart/checkout/:id", async (request, response) => {
   if(request.body["cart-checks"]) {
     if(request.body["cart-checks"].length === 1) {
       for(let product of cart) {
-        
+
           if(mongoose.Types.ObjectId(request.body["cart-checks"]).equals(product._id)) {
             let purchaseHistory = new PurchaseHistoryModel({user_id: product.user_id, 
               item_id: product.item_id,
@@ -120,7 +120,7 @@ router.delete("/cart/checkout/:id", async (request, response) => {
               finish: product.finish,
               date: Date.now(),
               quantity: product.qty,
-              item_img: "product-img.png",
+              item_img: product.image,
               price: product.item_price,
               payment_type: 1,
               status: 1,
@@ -206,7 +206,7 @@ router.delete("/cart/checkout/:id", async (request, response) => {
               finish: product.finish,
               date: Date.now(),
               quantity: product.qty,
-              item_img: "product-img.png",
+              item_img: product.image,
               price: product.item_price,
               payment_type: 1,
               status: 1,
@@ -388,8 +388,9 @@ router.get("/account-history", async (request, response) => {
   const user = await CustomerModel.findById(id);
   const appointments = await AppointmentModel.find({user_id: session.user_id});
   const eyeHistory = await EyeHistoryModel.find({user_id: session.user_id});
+  const purchaseHistory = await PurchaseHistoryModel.find({user_id: session.user_id});
   try {
-    response.render("client/profile/history.ejs", {user, session, appointments, eyeHistory});
+    response.render("client/profile/history.ejs", {user, session, appointments, eyeHistory, purchaseHistory});
   } catch (error) {
     response.status(500).send(error);
   }
